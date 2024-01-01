@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Sidebar/>
-        <div className='ml-64'>
+        <div className='lg:ml-64'>
           {children}
         </div>
       </body>
