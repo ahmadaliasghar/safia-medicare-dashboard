@@ -4,7 +4,7 @@ type ActionType = 'success' | 'default';
 
 interface ActionButtonProps {
   children: ReactNode;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   type?: ActionType;
 }
 
