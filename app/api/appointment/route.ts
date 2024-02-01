@@ -1,26 +1,60 @@
 import { connectToDatabase } from "@/lib/db";
+import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (request: NextRequest) => {
- try {
-    const db = await connectToDatabase();
-    const appointmentsCollection = db.collection('appointments');
+  try {
+      const db = await connectToDatabase();
+      const appointmentsCollection = db.collection('appointments');
 
-    const appointments = await appointmentsCollection.find({}).toArray();
+      // Fetch all appointments
+      const appointments = await appointmentsCollection.find({}).toArray();
 
-    return NextResponse.json({
-        success: true,
-        status: 200,
-        appointments
+      // Fetch doctor and patient details for each appointment
+      const appointmentsWithDetails = await Promise.all(
+          appointments.map(async (appointment) => {
+              const doctorId = new ObjectId(appointment.doctor);
+              const patientId = new ObjectId(appointment.patient);
+
+              const [doctor, patient] = await Promise.all([
+                  db.collection('doctors').findOne({ _id: doctorId }),
+                  db.collection('patients').findOne({ _id: patientId }),
+              ]);
+
+              if (doctor && patient) {
+                  // Include doctor and patient details in the appointment
+                  return {
+                      ...appointment,
+                      doctor: {
+                          _id: doctor._id,
+                          name: doctor.name,
+                          // Add other doctor details as needed
+                      },
+                      patient: {
+                          _id: patient._id,
+                          name: `${patient.firstName} ${patient.lastName}`,
+                          // Add other patient details as needed
+                      },
+                  };
+              } else {
+                  // Handle case where doctor or patient not found
+                  return appointment;
+              }
+          })
+      );
+
+      return NextResponse.json({
+          success: true,
+          status: 200,
+          appointments: appointmentsWithDetails,
       });
-
   } catch (error) {
-    console.error(error);
+      console.error(error);
 
-    return NextResponse.json({
-        success: false,
-        status: 500,
-        error: "Internal Server Error"
+      return NextResponse.json({
+          success: false,
+          status: 500,
+          error: "Internal Server Error",
       });
   }
 };

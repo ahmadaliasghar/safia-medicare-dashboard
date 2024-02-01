@@ -1,7 +1,18 @@
+'use client'
 import TodayAppointmentCard from '@/components/Appointments/TodayAppointmentCard'
+import { useGetAppointmentsQuery } from '@/features/appointmentSlice';
 import React from 'react'
 
 const TodayAppointmentView = () => {
+  
+  const {
+    data: allAppointments,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetAppointmentsQuery();
+
   return (
     <div className='m-2 rounded-lg p-6 bg-white shadow-2xl'>
         <div className='flex justify-between'>
@@ -12,10 +23,9 @@ const TodayAppointmentView = () => {
                 <option>30</option>
             </select>
         </div>
-        <TodayAppointmentCard/>
-        <TodayAppointmentCard/>
-        <TodayAppointmentCard/>
-        <TodayAppointmentCard/>
+        {allAppointments?.appointments?.map((appointment) => (
+        <TodayAppointmentCard appointment={appointment} />
+        ))}
     </div>
   )
 }
