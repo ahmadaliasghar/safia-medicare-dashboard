@@ -1,35 +1,50 @@
 'use client'
 import { TextareaAutosize } from '@mui/base';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 interface FormData {
-    patient: string;
-    name: string;
-    email: string;
-    date: string;
-    time: string;
-  }
+  patient: string;
+  name: string;
+  email: string;
+  date: string;
+  time: string;
+  description: string;
+}
 
 const ServiceForm = () => {
-    const [formData, setFormData] = useState<FormData>({
-        patient: '',
-        name: '',
-        email: '',
-        date: '',
-        time: '',
-      });
-    
-      const handleChange = (selectedOption: { label: string; value: string }) => {
-        setFormData({ ...formData, patient: selectedOption.value });
-      };
-    
-    
-      const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Add your form submission logic here
-        console.log('Form submitted:', formData);
-      };
-    
+  const [formData, setFormData] = useState<FormData>({
+    patient: '',
+    name: '',
+    email: '',
+    date: '',
+    time: '',
+    description: '',
+  });
+
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleTextAreaChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Add your form submission logic here
+    console.log('Form submitted:', formData);
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -90,11 +105,16 @@ const ServiceForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="time" className="block text-gray-800 mb-2">
+          <label htmlFor="description" className="block text-gray-800 mb-2">
             Description
           </label>
-          <TextareaAutosize />
-
+          <TextareaAutosize
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleTextAreaChange}
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+          />
         </div>
         <div className="">
           <button
@@ -106,7 +126,7 @@ const ServiceForm = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default ServiceForm
+export default ServiceForm;
