@@ -9,6 +9,7 @@ export const GET = async (request: NextRequest) => {
     const appointments = await appointmentsCollection.find({}).toArray();
 
     return NextResponse.json({
+        success: true,
         status: 200,
         appointments
       });
@@ -17,6 +18,7 @@ export const GET = async (request: NextRequest) => {
     console.error(error);
 
     return NextResponse.json({
+        success: false,
         status: 500,
         error: "Internal Server Error"
       });

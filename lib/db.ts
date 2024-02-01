@@ -1,5 +1,3 @@
-// lib/db.ts
-
 import mongoose, { Connection } from 'mongoose';
 
 const MONGODB_URI = process.env.MONGO_URI;

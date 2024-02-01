@@ -1,8 +1,10 @@
 'use client'
+import { useGetPatientsQuery } from '@/features/patientSlice';
 import React, { useState } from 'react';
 import Select from 'react-select';
 
 interface FormData {
+  _id?: string;
   patient: string;
   name: string;
   email: string;
@@ -19,6 +21,20 @@ const AppointmentForm: React.FC = () => {
     time: '',
   });
 
+  const {
+    data:allPatients,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  }=useGetPatientsQuery();
+  
+    console.log("🚀 ~ error:", error)
+    console.log("🚀 ~ isError:", isError)
+    console.log("🚀 ~ isSuccess:", isSuccess)
+    console.log("🚀 ~ isLoading:", isLoading)
+    console.log("🚀 ~ data:", allPatients?.patients)
+
   const patients: { label: string; value: string }[] = [
     { label: 'Patient 1', value: 'patient1' },
     { label: 'Patient 2', value: 'patient2' },
@@ -33,7 +49,6 @@ const AppointmentForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your form submission logic here
     console.log('Form submitted:', formData);
   };
 
@@ -41,7 +56,7 @@ const AppointmentForm: React.FC = () => {
     option: (provided: any, state: any) => ({
       ...provided,
       backgroundColor: state.isSelected ? '#d9d4f1' : 'white', // Light purple when selected
-      color: state.isSelected ? 'black' : 'inherit',
+      color: 'black',
     }),
   };
 
@@ -58,9 +73,10 @@ const AppointmentForm: React.FC = () => {
           <Select
               id="patient"
               name="patient"
-              value={patients.find((p) => p.value === formData.patient)}
-              options={patients}
-              onChange={handleChange}
+              value={allPatients?.patients.find((p:any) => p?._id === formData?._id)}
+              options={allPatients?.patients}
+              getOptionLabel={option => option?.firstName || "Hello"}
+              getOptionValue={option => option?._id}
               className="w-full"
               placeholder="Select a patient"
               styles={customStyles}
@@ -75,7 +91,7 @@ const AppointmentForm: React.FC = () => {
             id="name"
             name="name"
             value={formData.name}
-            onChange={handleChange}
+            // onChange={handleChange}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
             required
           />
@@ -89,7 +105,7 @@ const AppointmentForm: React.FC = () => {
             id="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
+            // onChange={handleChange}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
             required
           />
@@ -103,7 +119,7 @@ const AppointmentForm: React.FC = () => {
             id="date"
             name="date"
             value={formData.date}
-            onChange={handleChange}
+            // onChange={handleChange}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
             required
           />
@@ -117,7 +133,7 @@ const AppointmentForm: React.FC = () => {
             id="time"
             name="time"
             value={formData.time}
-            onChange={handleChange}
+            // onChange={handleChange}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
             required
           />
@@ -134,7 +150,7 @@ const AppointmentForm: React.FC = () => {
           <img
             src="https://assets.ccbp.in/frontend/react-js/appointments-app/appointments-img.png" // Replace with the path to your SVG file
             alt="Illustration"
-            className="w-[40%] hidden lg:block h-64 flex items-center justify-center"
+            className="w-[40%]  lg:block h-64 flex items-center justify-center"
           />
           </div>
     </div>

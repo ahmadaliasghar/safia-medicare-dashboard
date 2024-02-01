@@ -1,15 +1,6 @@
-// lib/models/appointment.ts
 
+import { Appointment } from '@/types';
 import { Schema, model, Document } from 'mongoose';
-
-interface Appointment {
-  title: string;
-  date: Date;
-  time: string;
-  status: string;
-  patient: Schema.Types.ObjectId;
-  doctor: Schema.Types.ObjectId;
-}
 
 const appointmentSchema = new Schema<Appointment & Document>({
   title: { type: String, required: true },

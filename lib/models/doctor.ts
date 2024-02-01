@@ -1,15 +1,6 @@
-// lib/models/doctor.ts
 
+import { Doctor } from '@/types';
 import { Schema, model, Document } from 'mongoose';
-
-interface Doctor {
-  name: string;
-  contact: string;
-  speciality: string;
-  degree: string;
-  email: string;
-  username: string;
-}
 
 const doctorSchema = new Schema<Doctor & Document>({
   name: { type: String, required: true },
