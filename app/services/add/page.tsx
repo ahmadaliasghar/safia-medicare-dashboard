@@ -1,5 +1,5 @@
 import React from 'react'
-import ServiceForm from '../serviceForm'
+import ServiceForm from '../ServiceForm' 
 
 const Page = () => {
   return (
