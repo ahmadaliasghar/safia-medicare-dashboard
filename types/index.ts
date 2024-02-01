@@ -20,9 +20,16 @@ export interface Doctor {
 
 export interface Appointment {
     title: string;
-    date: Date;
+    date: string;
     time: string;
     status: string;
-    patient: Schema.Types.ObjectId;
-    doctor: Schema.Types.ObjectId;
+    patient: string;
+    doctor: string;
+  }
+
+  export interface Response {
+    data?: [];
+    status?:number;
+    message?: string;
+    success?: boolean
   }

@@ -4,14 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 export const GET = async (request: NextRequest) => {
     try {
     const db = await connectToDatabase();
-    const patientsCollection = db.collection('patients');
+    const doctorsCollection = db.collection('doctors');
 
-    const patients = await patientsCollection.find({}).toArray();
+    const doctors = await doctorsCollection.find({}).toArray();
 
     return NextResponse.json({
         success: true,
         status: 200,
-        patients
+        doctors
       });
 
   } catch (error) {
@@ -32,23 +32,23 @@ export const POST = async (request: NextRequest) => {
 
         const { email } = req;
 
-        let patient = await db.collection('patients').findOne({ email });
+        let doctor = await db.collection('doctors').findOne({ email });
 
-        if(patient) {
+        if(doctor) {
             return NextResponse.json({
                 success: false,
                 status: 409,
-                error: "Patient with this email already exists!!!"
+                error: "Doctor with this email already exists!!!"
             })
         }
 
-        let newPatient = await db.collection('patients').insertOne(req)
+        let newDoctor = await db.collection('doctors').insertOne(req)
 
         return NextResponse.json({
             success: true,
             status: 200,
-            message: "Patient Created",
-            data: newPatient
+            message: "Doctor Created",
+            data: newDoctor
             });
    
      } catch (error) {
