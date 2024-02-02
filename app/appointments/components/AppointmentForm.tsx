@@ -5,6 +5,8 @@ import { Appointment, Response } from '@/types';
 import { Schema, Types } from 'mongoose';
 import React, { useState } from 'react';
 import Select, { ActionMeta } from 'react-select';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Button, Typography } from '@mui/material';
 
 interface PatientOption {
   _id: string
@@ -14,6 +16,7 @@ interface PatientOption {
 }
 
 const AppointmentForm: React.FC = () => {
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const [formData, setFormData] = useState<Appointment>({
     title: '',
     date: '',
@@ -41,7 +44,7 @@ const AppointmentForm: React.FC = () => {
       setFormData({ ...formData, patient: '' });
     }
   };
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -50,25 +53,27 @@ const AppointmentForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     addAppointment({ ...formData, doctor: '65bb623f10daa72d6678ce30', patient: formData.patient }).unwrap()
-    .then((res) => {
-      if (res.status === 200) {
-      	  setFormData((prevFormData) => ({
-      	    title: '',
-      	    date: '',
-      	    time: '',
-      	    doctor: '',
-      	    patient: '',
-      	    status: 'pending',
-      	  }));
+      .then((res) => {
+        if (res.status === 200) {
+          setFormData((prevFormData) => ({
+            title: '',
+            date: '',
+            time: '',
+            doctor: '',
+            patient: '',
+            status: 'pending',
+          }));
           handleChangePatient(null);
-      	}
-    })
-    .catch((err) => {
-      console.log("🚀 ~ handleSubmit ~ err:", err)
-  
-    })
-  };
+        }
+      })
+      .catch((err) => {
+        console.log("🚀 ~ handleSubmit ~ err:", err)
 
+      })
+  };
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);
+  };
   const customStyles = {
     option: (provided: any, state: any) => ({
       ...provided,
@@ -79,9 +84,11 @@ const AppointmentForm: React.FC = () => {
 
   return (
     <div className="w-[65vw] mx-auto mt-10 p-8 bg-white rounded-md shadow-md relative">
-      <h2 className="text-3xl font-semibold mb-6 text-gray-800">Schedule an Appointment</h2>
+    <h2 className="text-3xl font-semibold mb-6 text-gray-800">Schedule an Appointment</h2>
+
+    {isFormVisible ? (
       <div className='flex gap-6'>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="mb-4">
             <label htmlFor="patient" className="block text-gray-800 mb-2">
               Select Patient
@@ -155,8 +162,19 @@ const AppointmentForm: React.FC = () => {
           className="w-[40%] ml-8 lg:block h-64 flex items-center justify-center"
         />
       </div>
-    </div>
-  );
+    ) : (
+      <Button
+        onClick={toggleFormVisibility}
+        variant="contained"
+        style={{ backgroundColor: '#8b5cf6', color: 'white' }}
+      >
+        Open Appointment Form
+      </Button>
+    )}
+  </div>
+);
 };
+
+ 
 
 export default AppointmentForm;

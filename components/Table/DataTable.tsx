@@ -2,6 +2,7 @@
 import React from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Avatar, Box, Typography, Button } from '@mui/material';
+import { useAddDoctorMutation, useGetDoctorsQuery } from '@/features/doctorSlice';
 
 
 const columns: GridColDef[] = [
@@ -74,6 +75,17 @@ const rows = [
 ];
 
 export default function DataTable() {
+  const {
+    data: allDoctors,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetDoctorsQuery();
+    console.log("🚀 ~ DataTable ~ allDoctors:", allDoctors)
+
+  const [addDoctor] = useAddDoctorMutation();
+
   return (
     <div style={{ height: 400, width: '97%',marginLeft:'10px'}}>
       <DataGrid

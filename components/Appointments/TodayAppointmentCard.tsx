@@ -3,6 +3,22 @@ import PersonImage from "@/assets/images/Person.png"
 import React from 'react'
 
 const TodayAppointmentCard = ({appointment}) => {
+    console.log(appointment)
+    const currentDate = new Date();
+  const appointmentDate = new Date(appointment.date);
+
+  // Check if the appointment date is equal to the current date
+  const isTodayAppointment = (
+    currentDate.getDate() === appointmentDate.getDate() &&
+    currentDate.getMonth() === appointmentDate.getMonth() &&
+    currentDate.getFullYear() === appointmentDate.getFullYear()
+  );
+
+  // If it's not today's appointment, return null to hide the component
+  if (!isTodayAppointment) {
+    console.log(isTodayAppointment,'today ')
+    return null;
+  }
   return (
     <div className='w-full border-red bg-white border m-2 min-h-32 rounded-lg border-gray-700 flex'>
         <div className='hidden lg:block'>

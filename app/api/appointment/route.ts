@@ -75,6 +75,7 @@ export const POST = async (request: NextRequest) => {
     }
 
       let newAppointment = await db.collection('appointments').insertOne(req)
+      console.log("🚀 ~ POST ~ newAppointment:", newAppointment)
 
       return NextResponse.json({
           success: true,
