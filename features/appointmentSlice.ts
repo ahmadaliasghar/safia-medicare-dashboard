@@ -14,19 +14,13 @@ export const appointmentSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Appointment"]
     }),
-    acceptAppointment: builder.mutation({
-      query: ({ appointmentId }) => ({
-        url: `/appointment/${appointmentId}/accepted`, // Assuming you have an accept endpoint in your backend
+    updateAppointment: builder.mutation({
+      query: ({ appointmentId, body }: { appointmentId: string; body: { status: string } }) => ({
+        url: `/appointment/${appointmentId}`,
         method: "PATCH",
+        body,
       }),
-      invalidatesTags: ["Appointment"]
-    }),
-    rejectAppointment: builder.mutation({
-      query: ({ appointmentId }) => ({
-        url: `/appointment/${appointmentId}/rejected`, // Assuming you have a reject endpoint in your backend
-        method: "PATCH",
-      }),
-      invalidatesTags: ["Appointment"]
+      invalidatesTags: ["Appointment"],
     }),
   }),
 });
@@ -34,6 +28,5 @@ export const appointmentSlice = apiSlice.injectEndpoints({
 export const {
   useGetAppointmentsQuery,
   useAddAppointmentMutation,
-  useAcceptAppointmentMutation,
-  useRejectAppointmentMutation,
+  useUpdateAppointmentMutation,
 } = appointmentSlice;
