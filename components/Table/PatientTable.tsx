@@ -68,7 +68,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           </div>
           <div className="col-span-2 flex items-center">
             <p className="text-sm text-black p-2">
-              ${patient?.email}
+              {patient?.email}
             </p>
           </div>
           <div className="col-span-1 flex items-center">
