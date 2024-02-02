@@ -5,14 +5,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import * as React from 'react';
 import { useAddPatientMutation } from '@/features/patientSlice';
-
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { Patient } from '@/types';
 
 const useForm = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = React.useState<Patient>({
     firstName: '',
     lastName: '',
     email: '',
-    dateOfBirth: null,
+    dateOfBirth: '',
     contact: '',
   });
 
@@ -23,44 +25,54 @@ const useForm = () => {
   return {
     formData,
     handleChange,
+    setFormData
   };
 };
 
 const Page = () => {
   const [addPatient] = useAddPatientMutation();
-  const { formData, handleChange } = useForm();
-  const [errors, setErrors] = React.useState({});
+  const { formData, setFormData, handleChange } = useForm();
+  const [errors, setErrors] = React.useState<Patient>();
 
+  const router = useRouter();
 
   const validateForm = () => {
     const newErrors = {};
-
+  
     // Check if each required field has a value
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
     }
-
+  
     if (!formData.lastName.trim()) {
       newErrors.lastName = 'Last name is required';
     }
-
+  
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     }
-
+  
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = 'Date of Birth is required';
     }
-
+  
     if (!formData.contact.trim()) {
       newErrors.contact = 'Phone Number is required';
     }
-
+  
     setErrors(newErrors);
-
+  
+    // Show toast notifications for errors using react-hot-toast
+    Object.values(newErrors).forEach((error) => {
+      toast.error(error, {
+        duration: 3000, // Close the toast after 3 seconds
+      });
+    });
+  
     // Return true if there are no errors, indicating the form is valid
     return Object.keys(newErrors).length === 0;
   };
+  
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -73,12 +85,14 @@ const Page = () => {
     try {
       const response = await addPatient(formData);
       console.log('Patient added successfully:', response);
-
-      // Optionally, reset the form after successful submission
-      // setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: null, contact: '' });
+      toast.success('Patient added successfully')
+      setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: null, contact: '' });
+      router.push("/patients")
     } catch (error) {
       console.error('Error adding patient:', error);
+      toast.error('Error adding patient')
     }
+
   };
 
 
@@ -108,7 +122,7 @@ const Page = () => {
                     />
                   </div>
                   <div className="w-full md:w-1/2 ml-3">
-                    <label className="mb-2.5 block text-black dark:text-white mt-3">
+                    <label className="mb-2.5 block text-black dark:text-white">
                       Last name
                     </label>
                     <input
@@ -120,7 +134,7 @@ const Page = () => {
                     />
                   </div>
                   <div className="w-full md:w-1/2 ml-3">
-                    <label className="mb-2.5 block text-black dark:text-white mt-3">
+                    <label className="mb-2.5 block text-black dark:text-white ">
                       Email <span className="text-meta-1">*</span>
                     </label>
                     <input
@@ -132,13 +146,14 @@ const Page = () => {
                     />
                   </div>
                   <div className="w-full md:w-1/2 ml-3">
-                    <label className="mb-2.5 block text-black dark:text-white mt-3">
+                    <label className="mb-2.5 block text-black dark:text-white ">
                       Date of Birth
                     </label>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DemoContainer components={['DatePicker']}>
                         <DatePicker
                           label="Date of Birth"
+                          className='w-full'
                           value={formData.dateOfBirth}
                           onChange={(date) => handleChange('dateOfBirth', date)}
                         />
@@ -146,7 +161,7 @@ const Page = () => {
                     </LocalizationProvider>
                   </div>
                   <div className="w-full md:w-1/2 ml-3">
-                    <label className="mb-2.5 block text-black dark:text-white mt-3">
+                    <label className="mb-2.5 block text-black dark:text-white">
                       Phone Number
                     </label>
                     <input
