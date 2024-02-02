@@ -15,7 +15,7 @@ const Page = () => {
 
   return (
     <div className='m-4 mt-14 min-h-[100vh] bg-white text-light-primary p-4 rounded'>
-        <h1 className='text-2xl font-bold'>Patients</h1>
+        <h1 className='text-2xl font-bold text-light-primary'>Patients</h1>
         <PatientTable data={allPatients?.patients} />
     </div>
   )
