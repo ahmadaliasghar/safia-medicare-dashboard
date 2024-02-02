@@ -12,6 +12,10 @@ export const links = [
         path: '/doctors',
     },
     {
+        label: 'Patients',
+        path: '/patients',
+    },
+    {
         label: 'Services',
         path: '/services',
     },

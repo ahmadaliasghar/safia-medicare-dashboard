@@ -20,7 +20,7 @@ export default function RootLayout({
       <body>
         <ReduxProvider>
         <Sidebar/>
-        <div className='lg:ml-64'>
+        <div className='lg:ml-64 lg:mt-16'>
           {children}
         </div>
         </ReduxProvider>

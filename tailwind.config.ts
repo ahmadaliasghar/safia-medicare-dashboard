@@ -15,6 +15,20 @@ const config: Config = {
       },
     },
   },
+  colors: {
+    light: {
+      primary: '#23465a',
+      secondary: '#EA002A',
+      tertiary: '#DFEFFF4D',
+      theme: '#F1F3F6ff'
+    },
+    dark: {
+      primary: '#23465a',
+      secondary: '#EA002A',
+      tertiary: '#1c1816',
+      theme: '#dfefff'
+    },
+  },
   plugins: [],
 }
 export default config
