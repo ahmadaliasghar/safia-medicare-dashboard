@@ -2,6 +2,7 @@ import { Patient } from "@/types";
 import Image from "next/image";
 import Icon from "@/assets/images/Profile.jpg"
 import ActionButton from "../ActionButton";
+import Link from "next/link";
 
 interface PatientTableProps {
   data: Patient[];
@@ -15,9 +16,12 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
         <h4 className="text-xl font-semibold text-black">
           Patients
         </h4>
+        <Link href={'/patients/add-patient'}>
         <ActionButton type="success">
           Add Patient
         </ActionButton>
+        </Link>
+      
       </div>
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-2 flex items-center">
