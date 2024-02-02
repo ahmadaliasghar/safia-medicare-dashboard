@@ -1,19 +1,23 @@
 import { Patient } from "@/types";
 import Image from "next/image";
 import Icon from "@/assets/images/Profile.jpg"
+import ActionButton from "../ActionButton";
 
 interface PatientTableProps {
-    data: Patient[]; 
-  }
+  data: Patient[];
+}
 
-const PatientTable: React.FC<PatientTableProps> = ({data}) => {
+const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default ">
-      <div className="py-6 px-4 md:px-6 xl:px-7.5">
+      <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center">
         <h4 className="text-xl font-semibold text-black">
           Patients
         </h4>
+        <ActionButton type="success">
+          Add Patient
+        </ActionButton>
       </div>
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-2 flex items-center">
