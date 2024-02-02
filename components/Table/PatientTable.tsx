@@ -4,6 +4,30 @@ import Icon from "@/assets/images/Profile.jpg"
 import ActionButton from "../ActionButton";
 import Link from "next/link";
 
+
+
+export const calculateAge = (dob: string | undefined): string => {
+  if (!dob) return 'N/A';
+
+  const birthDate = new Date(dob);
+  const currentDate = new Date();
+
+  let years = currentDate.getFullYear() - birthDate.getFullYear();
+  let months = currentDate.getMonth() - birthDate.getMonth();
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  
+  const ageString = years > 0 ? `${years} years` : '';
+  const monthsString = months > 0 ? `${months} months` : '';
+
+  return `${ageString} ${monthsString}`.trim();
+};
+
+
 interface PatientTableProps {
   data: Patient[];
 }
@@ -17,11 +41,11 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           Patients
         </h4>
         <Link href={'/patients/add-patient'}>
-        <ActionButton type="success">
-          Add Patient
-        </ActionButton>
+          <ActionButton type="success">
+            Add Patient
+          </ActionButton>
         </Link>
-      
+
       </div>
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-2 flex items-center">
@@ -63,7 +87,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           </div>
           <div className="col-span-2 hidden items-center sm:flex">
             <p className="text-sm text-black p-2">
-              {patient?.dateOfBirth}
+              {calculateAge(patient?.dateOfBirth)}
             </p>
           </div>
           <div className="col-span-2 flex items-center">

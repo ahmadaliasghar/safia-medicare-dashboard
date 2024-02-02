@@ -29,21 +29,58 @@ const useForm = () => {
 const Page = () => {
   const [addPatient] = useAddPatientMutation();
   const { formData, handleChange } = useForm();
+  const [errors, setErrors] = React.useState({});
 
 
+  const validateForm = () => {
+    const newErrors = {};
 
+    // Check if each required field has a value
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
 
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    }
+
+    if (!formData.dateOfBirth) {
+      newErrors.dateOfBirth = 'Date of Birth is required';
+    }
+
+    if (!formData.contact.trim()) {
+      newErrors.contact = 'Phone Number is required';
+    }
+
+    setErrors(newErrors);
+
+    // Return true if there are no errors, indicating the form is valid
+    return Object.keys(newErrors).length === 0;
+  };
   const handleSave = async (e) => {
-    e.preventDefault(); // Prevents the default form submission behavior
-  
+    e.preventDefault();
+
+    // Validate the form
+    if (!validateForm()) {
+      // Form is not valid, do not proceed with submission
+      return;
+    }
+
     try {
       const response = await addPatient(formData);
       console.log('Patient added successfully:', response);
+
+      // Optionally, reset the form after successful submission
+      // setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: null, contact: '' });
     } catch (error) {
       console.error('Error adding patient:', error);
     }
   };
-  
+
 
   return (
     <>
