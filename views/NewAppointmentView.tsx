@@ -1,6 +1,7 @@
 'use client'
 import NewAppointmentCard from '@/components/Appointments/NewAppointmentCaed'
 import TodayAppointmentCard from '@/components/Appointments/TodayAppointmentCard'
+import Loader from '@/components/Loader'
 import ToggleButton from '@/components/ToggleButton'
 import { useGetAppointmentsQuery } from '@/features/appointmentSlice'
 import React from 'react'
@@ -20,9 +21,10 @@ const NewAppointmentView = () => {
             <h2 className='text-gray-600 font-bold'>New Appointments</h2>
             <ToggleButton/>
         </div>
-        {allAppointments?.appointments?.map((appointment) => (
+        {isLoading && (<Loader/>)}
+        {!isLoading && (allAppointments?.appointments?.map((appointment) => (
         <NewAppointmentCard appointment={appointment} />
-        ))}
+        )))}
     </div>
   )
 }
