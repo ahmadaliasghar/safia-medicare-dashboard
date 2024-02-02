@@ -1,4 +1,5 @@
 'use client'
+import Loader from '@/components/Loader';
 import PatientTable from '@/components/Table/PatientTable';
 import { useGetPatientsQuery } from '@/features/patientSlice';
 import React from 'react'
@@ -15,8 +16,11 @@ const Page = () => {
 
   return (
     <div className='m-4 mt-14 min-h-[100vh] bg-white text-light-primary p-4 rounded'>
-        {/* <h1 className='text-2xl font-bold'>Patients</h1> */}
+        <h1 className='text-2xl font-bold text-light-primary'>Patients</h1>
+        {isLoading && (<Loader style="items-center h-[70vh]" />)}
+        {!isLoading && (
         <PatientTable data={allPatients?.patients} />
+        )}
     </div>
   )
 }

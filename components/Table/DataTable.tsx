@@ -3,7 +3,11 @@ import React from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Avatar, Box, Typography, Button } from '@mui/material';
 import { useAddDoctorMutation, useGetDoctorsQuery } from '@/features/doctorSlice';
+import { Doctor } from '@/types';
 
+interface DoctorTableProp {
+  data: Doctor[]
+}
 
 const columns: GridColDef[] = [
   {
@@ -74,7 +78,7 @@ const rows = [
   { id: 9, function: 'Roxie', firstName: 'Harvey', status: 'active', patient: '800' },
 ];
 
-export default function DataTable() {
+const DataTable:React.FC<DoctorTableProp> = ({data}) => {
   const {
     data: allDoctors,
     isLoading,
@@ -101,3 +105,4 @@ export default function DataTable() {
     </div>
   );
 }
+export default DataTable

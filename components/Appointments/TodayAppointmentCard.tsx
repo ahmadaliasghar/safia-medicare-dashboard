@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import PersonImage from "@/assets/images/Person.png"
 import React from 'react'
+import { Appointment } from '@/types'
 
-const TodayAppointmentCard = ({appointment}) => {
+const TodayAppointmentCard:React.FC<Appointment> = ({appointment}) => {
     console.log(appointment)
     const currentDate = new Date();
   const appointmentDate = new Date(appointment.date);

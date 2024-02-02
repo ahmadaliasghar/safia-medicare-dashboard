@@ -14,20 +14,20 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
-  },
-  colors: {
-    light: {
-      primary: '#23465a',
-      secondary: '#EA002A',
-      tertiary: '#DFEFFF4D',
-      theme: '#F1F3F6ff'
-    },
-    dark: {
-      primary: '#23465a',
-      secondary: '#EA002A',
-      tertiary: '#1c1816',
-      theme: '#dfefff'
-    },
+    // colors: {
+    //   light: {
+    //     primary: '#23465a',
+    //     secondary: 'white',
+    //     tertiary: 'white',
+    //     theme: 'white'
+    //   },
+    //   dark: {
+    //     primary: 'white',
+    //     secondary: 'white',
+    //     tertiary: 'white',
+    //     theme: 'white'
+    //   },
+    // },
   },
   plugins: [],
 }

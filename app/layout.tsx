@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from '@/components/Sidebar'
 import ReduxProvider from '@/components/ReduxProvider'
+import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({
         <ReduxProvider>
         <Sidebar/>
         <div className='lg:ml-64 lg:mt-16'>
+          <Toaster/>
           {children}
         </div>
         </ReduxProvider>

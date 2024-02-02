@@ -3,9 +3,13 @@ import ActionButton from '../ActionButton';
 import PersonImage from "@/assets/images/Person.png";
 import Image from 'next/image';
 import { useAcceptAppointmentMutation, useRejectAppointmentMutation } from '@/features/appointmentSlice';
+import { Appointment } from '@/types';
 
+interface NewAppointmentCard {
+    appointment: Appointment
+}
 
-const NewAppointmentCard = ({ appointment }) => {
+const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
     const currentDate = new Date();
     const appointmentDate = new Date(appointment.date);
 
@@ -39,10 +43,10 @@ const NewAppointmentCard = ({ appointment }) => {
                 <div className="flex justify-between">
                     <p className='font-bold text-lg text-black'>{appointment?.patient?.name}</p>
                     <div>
-                        <ActionButton type="success" onClick={handleAccept} disabled={acceptMutationState.isLoading}>
+                        <ActionButton type="success" onClick={handleAccept}>
                             Accept
                         </ActionButton>
-                        <ActionButton onClick={handleReject} disabled={rejectMutationState.isLoading}>
+                        <ActionButton onClick={handleReject}>
                             Reject
                         </ActionButton>
                     </div>

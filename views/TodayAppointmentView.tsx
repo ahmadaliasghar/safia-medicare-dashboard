@@ -2,7 +2,7 @@
 import TodayAppointmentCard from '@/components/Appointments/TodayAppointmentCard'
 import { useGetAppointmentsQuery } from '@/features/appointmentSlice';
 import React from 'react'
-
+import Loader from '@/components/Loader';
 const TodayAppointmentView = () => {
   
   const {
@@ -23,9 +23,13 @@ const TodayAppointmentView = () => {
                 <option>30</option>
             </select>
         </div>
-        {allAppointments?.appointments?.map((appointment) => (
-        <TodayAppointmentCard appointment={appointment} />
-        ))}
+        {isLoading && (<Loader/>)}
+        {!isLoading && (
+         allAppointments?.appointments?.map((appointment) => (
+         <TodayAppointmentCard key={appointment.id} appointment={appointment} />
+         ))
+        )}
+
     </div>
   )
 }
