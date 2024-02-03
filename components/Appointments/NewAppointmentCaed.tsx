@@ -4,7 +4,7 @@ import ActionButton from '../ActionButton';
 import PersonImage from "@/assets/images/Person.png";
 import Image from 'next/image';
 import { useUpdateAppointmentMutation } from '@/features/appointmentSlice';
-import { Appointment } from '@/types';
+import { Appointment, Person } from '@/types';
 
 interface NewAppointmentCard {
     appointment: Appointment
@@ -23,6 +23,10 @@ const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
     const [updateAppointment] = useUpdateAppointmentMutation();
 
     const handleUpdateStatus = (id:string, status:string) => {
+        if (id === undefined) {
+            console.error("Invalid appointment ID");
+            return;
+          }
         updateAppointment({appointmentId: id, body: { status }}).unwrap()
         .then((res) => {
            console.log("Updated Appointment")
@@ -39,7 +43,7 @@ const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
             </div>
             <div className='p-6 bg-slate-100 w-full'>
                 <div className="flex justify-between">
-                    <p className='font-bold text-lg text-black'>{appointment?.patient?.name}</p>
+                    <p className='font-bold text-lg text-black'>{(appointment?.patient as Person)?.name}</p>
                     <div>
                         <ActionButton type="success" onClick={() => handleUpdateStatus(appointment?._id, "accepted")}>
                             Accept

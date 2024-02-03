@@ -7,10 +7,8 @@ export const GET = async (request: NextRequest) => {
       const db = await connectToDatabase();
       const appointmentsCollection = db.collection('appointments');
 
-      // Fetch all appointments
       const appointments = await appointmentsCollection.find({}).toArray();
 
-      // Fetch doctor and patient details for each appointment
       const appointmentsWithDetails = await Promise.all(
           appointments.map(async (appointment) => {
               const doctorId = new ObjectId(appointment.doctor);
@@ -22,22 +20,18 @@ export const GET = async (request: NextRequest) => {
               ]);
 
               if (doctor && patient) {
-                  // Include doctor and patient details in the appointment
                   return {
                       ...appointment,
                       doctor: {
                           _id: doctor._id,
                           name: doctor.name,
-                          // Add other doctor details as needed
                       },
                       patient: {
                           _id: patient._id,
                           name: `${patient.firstName} ${patient.lastName}`,
-                          // Add other patient details as needed
                       },
                   };
               } else {
-                  // Handle case where doctor or patient not found
                   return appointment;
               }
           })
