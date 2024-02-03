@@ -30,7 +30,7 @@ export interface Appointment {
     time: string;
     status: string;
     patient: string | Person;
-    doctor: string;
+    doctor: string | Person;
   }
 
   export interface Response {
