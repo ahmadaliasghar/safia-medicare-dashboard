@@ -27,7 +27,7 @@ const AcceptAppointmentCard: React.FC<AcceptAppointmentCard> = ({ appointment })
                         <p className='text-black'># {appointment?._id}</p>
                     </div>
                     <div>
-                        <p className='font-bold  text-gray-600'>Doctor</p>
+                        <p className='font-bold  text-gray-600 '>Doctor</p>
                         <p className='text-black'>{appointment?.doctor?.name}</p>
                     </div>
                     <div>
@@ -39,7 +39,7 @@ const AcceptAppointmentCard: React.FC<AcceptAppointmentCard> = ({ appointment })
                         <p className='text-black'>{appointment?.time}</p>
                     </div>
                     <div>
-                        <p className='text-gray-600'>Service</p>
+                        <p className='text-gray-600 font-bold'>Service</p>
                         <p className='text-black'>{appointment?.title}</p>
                     </div>
                 </div>
