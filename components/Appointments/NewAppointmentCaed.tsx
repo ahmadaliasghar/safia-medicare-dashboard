@@ -70,7 +70,7 @@ const NewAppointmentCard: React.FC<NewAppointmentCard> = ({ appointment }) => {
             </div>
             <div className='p-6 bg-slate-100 w-full'>
                 <div className="flex justify-between">
-                    <p className='font-bold text-lg text-black'>{appointment?.patient?.name}</p>
+                    <p className='font-bold text-lg text-black'>{(appointment?.patient as Person)?.name}</p>
                     <div>
                         <ActionButton type="success" onClick={() => handleUpdateStatus(appointment?._id, "accepted")}>
                             Accept
