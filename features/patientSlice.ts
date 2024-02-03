@@ -1,3 +1,4 @@
+import { Patient } from "@/types";
 import { apiSlice } from "./api/apiSlice";
 
 export const patientSlice = apiSlice.injectEndpoints({
@@ -5,6 +6,12 @@ export const patientSlice = apiSlice.injectEndpoints({
     getPatients: builder.query<any, void>({
       query: () => "/patient",
       providesTags: ['Patient']
+    }),
+    getPatient: builder.query({
+      query: (id) => ({
+        url: `/patient/${id}`,
+        method: "GET",
+      })
     }),
     addPatient: builder.mutation({
       query: (patient) => ({
@@ -15,9 +22,9 @@ export const patientSlice = apiSlice.injectEndpoints({
       invalidatesTags:["Patient"]
     }),
     updatePatient: builder.mutation({
-      query: ({ patientId, body }: { patientId: string | null; body: { status: string } }) => ({
+      query: ({ patientId, body }: { patientId: string; body: Patient }) => ({
         url: `/patient/${patientId}`,
-        method: "PATCH",
+        method: "PUT",
         body,
       }),
       invalidatesTags: ["Patient"],
@@ -32,4 +39,4 @@ export const patientSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetPatientsQuery, useAddPatientMutation, useUpdatePatientMutation, useDeletePatientMutation } = patientSlice;
+export const { useGetPatientsQuery, useGetPatientQuery, useAddPatientMutation, useUpdatePatientMutation, useDeletePatientMutation } = patientSlice;
