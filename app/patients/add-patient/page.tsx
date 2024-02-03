@@ -18,7 +18,7 @@ const useForm = () => {
     contact: ''
   });
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: any) => {
     setFormData((prevData) => ({ ...prevData, [field]: value }));
   };
 
@@ -49,32 +49,32 @@ const Page = () => {
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
     }
-  
+
     if (!formData.lastName.trim()) {
       newErrors.lastName = 'Last name is required';
     }
-  
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     }
-  
+
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = 'Date of Birth is required';
     }
-  
+
     if (!formData.contact.trim()) {
       newErrors.contact = 'Phone Number is required';
     }
-  
-    setErrors(newErrors);
-  
+
+    setErrors(newErrors as Patient);
+
     // Show toast notifications for errors using react-hot-toast
     Object.values(newErrors).forEach((error) => {
       toast.error(error, {
         duration: 3000, // Close the toast after 3 seconds
       });
     });
-  
+
     // Return true if there are no errors, indicating the form is valid
     return Object.keys(newErrors).length === 0;
   };
@@ -96,11 +96,9 @@ const Page = () => {
       router.push("/patients")
     } catch (error) {
       console.error('Error adding patient:', error);
-      toast.error('Error adding patient')
+      toast.error('Error adding patient');
     }
-
   };
-
 
   return (
     <>
