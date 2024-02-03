@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import ActionButton from '../ActionButton';
 import PersonImage from "@/assets/images/Person.png";
@@ -19,11 +20,6 @@ const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
         currentDate.getFullYear() === appointmentDate.getFullYear()
     );
 
-
-    if (isCurrentDateAppointment) {
-        return null;
-    }
-    
     const [updateAppointment] = useUpdateAppointmentMutation();
 
     const handleUpdateStatus = (id:string, status:string) => {
