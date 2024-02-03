@@ -8,8 +8,6 @@ interface AcceptAppointmentCard {
 }
 
 const AcceptAppointmentCard: React.FC<AcceptAppointmentCard> = ({ appointment }) => {
-    console.log(appointment, "app")
-
 
     return (
         <div className='w-full border-red bg-white border m-2 h-32 rounded-lg border-gray-700 flex'>

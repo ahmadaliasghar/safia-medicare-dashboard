@@ -19,7 +19,6 @@ const AcceptAppointmentView = () => {
         <div className='m-2 rounded-lg p-6 bg-white shadow-2xl'>
             <div className='flex justify-between'>
                 <h2 className='text-gray-600 font-bold'>Accepted Appointments</h2>
-                <ToggleButton />
             </div>
             {isLoading && (<Loader />)}
             {!isLoading && (
