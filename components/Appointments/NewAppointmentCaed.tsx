@@ -4,13 +4,14 @@ import ActionButton from '../ActionButton';
 import PersonImage from "@/assets/images/Person.png";
 import Image from 'next/image';
 import { useUpdateAppointmentMutation } from '@/features/appointmentSlice';
-import { Appointment, Person } from '@/types';
+import { Appointment } from '@/types';
+import Swal from 'sweetalert2';
 
 interface NewAppointmentCard {
     appointment: Appointment
 }
 
-const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
+const NewAppointmentCard: React.FC<NewAppointmentCard> = ({ appointment }) => {
     const currentDate = new Date();
     const appointmentDate = new Date(appointment.date);
 
@@ -20,21 +21,47 @@ const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
         currentDate.getFullYear() === appointmentDate.getFullYear()
     );
 
+
+    if (isCurrentDateAppointment) {
+        return null;
+    }
+
+
+
     const [updateAppointment] = useUpdateAppointmentMutation();
 
-    const handleUpdateStatus = (id:string, status:string) => {
-        if (id === undefined) {
-            console.error("Invalid appointment ID");
-            return;
-          }
-        updateAppointment({appointmentId: id, body: { status }}).unwrap()
-        .then((res) => {
-           console.log("Updated Appointment")
-        })
-        .catch((err) => {
-            console.log("🚀 ~ handleSubmit ~ err:", err)
-        })
-    }
+    const handleUpdateStatus = (id: string, status: string) => {
+        Swal.fire({
+            title: `Are you sure you want to ${status === 'accepted' ? 'accept' : 'reject'} this appointment?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                updateAppointment({ appointmentId: id, body: { status } })
+                    .unwrap()
+                    .then(() => {
+                        console.log("Updated Appointment");
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Appointment Updated',
+
+                        });
+                    })
+                    .catch((err) => {
+                        console.log("Error updating appointment:", err);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to update appointment status',
+                        });
+                    });
+            }
+        });
+    };
 
     return (
         <div className='w-full border-red bg-white border m-2 h-32 rounded-lg border-gray-700 flex'>
