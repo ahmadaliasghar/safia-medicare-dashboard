@@ -100,7 +100,6 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
               {calculateAge(patient?.dateOfBirth)}
               
             </p>
-            {console.log(patient)}
           </div>
           <div className="col-span-2 flex items-center">
             <p className="text-sm text-black p-2">
