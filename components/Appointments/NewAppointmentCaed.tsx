@@ -26,6 +26,8 @@ const NewAppointmentCard: React.FC<NewAppointmentCard> = ({ appointment }) => {
         return null;
     }
 
+
+
     const [updateAppointment] = useUpdateAppointmentMutation();
 
     const handleUpdateStatus = (id: string, status: string) => {

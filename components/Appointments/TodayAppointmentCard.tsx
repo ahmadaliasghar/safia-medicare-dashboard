@@ -9,18 +9,18 @@ interface TodayAppointmentCardProps {
 
 const TodayAppointmentCard:React.FC<TodayAppointmentCardProps> = ({appointment}) => {
     
-  const currentDate = new Date();
-  const appointmentDate = new Date(appointment.date);
+//   const currentDate = new Date();
+//   const appointmentDate = new Date(appointment.date);
 
-  const isTodayAppointment = (
-    currentDate.getDate() === appointmentDate.getDate() &&
-    currentDate.getMonth() === appointmentDate.getMonth() &&
-    currentDate.getFullYear() === appointmentDate.getFullYear()
-  );
+//   const isTodayAppointment = (
+//     currentDate.getDate() === appointmentDate.getDate() &&
+//     currentDate.getMonth() === appointmentDate.getMonth() &&
+//     currentDate.getFullYear() === appointmentDate.getFullYear()
+//   );
 
-  if (!isTodayAppointment) {
-    return null;
-  }
+//   if (!isTodayAppointment) {
+//     return null;
+//   }
 
   return (
     <div className='w-full border-red bg-white border m-2 min-h-32 rounded-lg border-gray-700 flex'>
