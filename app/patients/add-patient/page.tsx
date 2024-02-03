@@ -15,7 +15,7 @@ const useForm = () => {
     lastName: '',
     email: '',
     dateOfBirth: '',
-    contact: '',
+    contact: ''
   });
 
   const handleChange = (field, value) => {
@@ -37,7 +37,13 @@ const Page = () => {
   const router = useRouter();
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors:Patient = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    dateOfBirth: '',
+    contact: '',
+  };
   
     // Check if each required field has a value
     if (!formData.firstName.trim()) {
@@ -73,7 +79,7 @@ const Page = () => {
     return Object.keys(newErrors).length === 0;
   };
   
-  const handleSave = async (e) => {
+  const handleSave = async (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
 
     // Validate the form
@@ -86,7 +92,7 @@ const Page = () => {
       const response = await addPatient(formData);
       console.log('Patient added successfully:', response);
       toast.success('Patient added successfully')
-      setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: null, contact: '' });
+      setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '' });
       router.push("/patients")
     } catch (error) {
       console.error('Error adding patient:', error);
