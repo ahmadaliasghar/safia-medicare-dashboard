@@ -19,7 +19,6 @@ const TodayAppointmentCard:React.FC<TodayAppointmentCardProps> = ({appointment})
   );
 
   if (!isTodayAppointment) {
-    console.log(isTodayAppointment,'today ')
     return null;
   }
 
