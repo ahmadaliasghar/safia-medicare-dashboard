@@ -3,7 +3,8 @@ import Image from "next/image";
 import Icon from "@/assets/images/Profile.jpg"
 import ActionButton from "../ActionButton";
 import Link from "next/link";
-
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 
 export const calculateAge = (dob: string | undefined): string => {
@@ -20,7 +21,7 @@ export const calculateAge = (dob: string | undefined): string => {
     months += 12;
   }
 
-  
+
   const ageString = years > 0 ? `${years} years` : '';
   const monthsString = months > 0 ? `${months} months` : '';
 
@@ -61,7 +62,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           <p className="font-medium text-black p-3">Contact</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium text-black p-3">Profit</p>
+          <p className="font-medium text-black p-3">Actions</p>
         </div>
       </div>
 
@@ -98,8 +99,9 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black p-2">{patient?.contact}</p>
           </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-meta-3 p-2 text-black">$ {index}</p>
+          <div className="items-center flex space-x-2">
+            <FaEdit className="text-meta-3 cursor-pointer" />
+            <MdDelete className="text-red-500 cursor-pointer" />
           </div>
         </div>
       ))}
