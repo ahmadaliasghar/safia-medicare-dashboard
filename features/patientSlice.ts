@@ -5,7 +5,7 @@ export const patientSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPatients: builder.query<any, void>({
       query: () => "/patient",
-      providesTags: ['Patient']
+      providesTags:['Patient']
     }),
     getPatient: builder.query({
       query: (id) => ({

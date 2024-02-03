@@ -19,4 +19,8 @@ export const links = [
         label: 'Services',
         path: '/services',
     },
+    {
+        label: 'Calender',
+        path: '/calender',
+    },
 ]
