@@ -18,7 +18,7 @@ const useForm = () => {
     contact: '',
   });
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: any) => {
     setFormData((prevData) => ({ ...prevData, [field]: value }));
   };
 
@@ -37,43 +37,43 @@ const Page = () => {
   const router = useRouter();
 
   const validateForm = () => {
-    const newErrors = {};
-  
+    const newErrors: Partial<Patient> = {};
+
     // Check if each required field has a value
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
     }
-  
+
     if (!formData.lastName.trim()) {
       newErrors.lastName = 'Last name is required';
     }
-  
+
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     }
-  
+
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = 'Date of Birth is required';
     }
-  
+
     if (!formData.contact.trim()) {
       newErrors.contact = 'Phone Number is required';
     }
-  
-    setErrors(newErrors);
-  
+
+    setErrors(newErrors as Patient);
+
     // Show toast notifications for errors using react-hot-toast
     Object.values(newErrors).forEach((error) => {
       toast.error(error, {
         duration: 3000, // Close the toast after 3 seconds
       });
     });
-  
+
     // Return true if there are no errors, indicating the form is valid
     return Object.keys(newErrors).length === 0;
   };
-  
-  const handleSave = async (e) => {
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validate the form
@@ -85,16 +85,20 @@ const Page = () => {
     try {
       const response = await addPatient(formData);
       console.log('Patient added successfully:', response);
-      toast.success('Patient added successfully')
-      setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: null, contact: '' });
-      router.push("/patients")
+      toast.success('Patient added successfully');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        dateOfBirth: null,
+        contact: '',
+      });
+      router.push('/patients');
     } catch (error) {
       console.error('Error adding patient:', error);
-      toast.error('Error adding patient')
+      toast.error('Error adding patient');
     }
-
   };
-
 
   return (
     <>
