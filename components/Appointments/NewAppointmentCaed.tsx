@@ -2,7 +2,7 @@ import React from 'react';
 import ActionButton from '../ActionButton';
 import PersonImage from "@/assets/images/Person.png";
 import Image from 'next/image';
-import { useAcceptAppointmentMutation, useRejectAppointmentMutation } from '@/features/appointmentSlice';
+import { useUpdateAppointmentMutation } from '@/features/appointmentSlice';
 import { Appointment } from '@/types';
 
 interface NewAppointmentCard {
@@ -23,16 +23,18 @@ const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
     if (isCurrentDateAppointment) {
         return null;
     }
-    const [acceptMutation, acceptMutationState] = useAcceptAppointmentMutation();
-    const [rejectMutation, rejectMutationState] = useRejectAppointmentMutation();
+    
+    const [updateAppointment] = useUpdateAppointmentMutation();
 
-    const handleAccept = async () => {
-        await acceptMutation.mutate({ appointmentId: appointment._id });
-    };
-
-    const handleReject = async () => {
-        await rejectMutation.mutate({ appointmentId: appointment._id });
-    };
+    const handleUpdateStatus = (id:string, status:string) => {
+        updateAppointment({appointmentId: id, body: { status }}).unwrap()
+        .then((res) => {
+           console.log("Updated Appointment")
+        })
+        .catch((err) => {
+            console.log("🚀 ~ handleSubmit ~ err:", err)
+        })
+    }
 
     return (
         <div className='w-full border-red bg-white border m-2 h-32 rounded-lg border-gray-700 flex'>
@@ -43,10 +45,10 @@ const NewAppointmentCard:React.FC<NewAppointmentCard> = ({ appointment }) => {
                 <div className="flex justify-between">
                     <p className='font-bold text-lg text-black'>{appointment?.patient?.name}</p>
                     <div>
-                        <ActionButton type="success" onClick={handleAccept}>
+                        <ActionButton type="success" onClick={() => handleUpdateStatus(appointment?._id, "accepted")}>
                             Accept
                         </ActionButton>
-                        <ActionButton onClick={handleReject}>
+                        <ActionButton onClick={() => handleUpdateStatus(appointment?._id, "rejected")}>
                             Reject
                         </ActionButton>
                     </div>

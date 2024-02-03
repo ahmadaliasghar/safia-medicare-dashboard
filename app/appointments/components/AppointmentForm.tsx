@@ -68,7 +68,6 @@ const AppointmentForm: React.FC = () => {
       })
       .catch((err) => {
         console.log("🚀 ~ handleSubmit ~ err:", err)
-
       })
   };
   const toggleFormVisibility = () => {

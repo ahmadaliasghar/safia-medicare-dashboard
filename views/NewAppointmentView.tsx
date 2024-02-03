@@ -15,6 +15,7 @@ const NewAppointmentView = () => {
     isError,
     error,
   } = useGetAppointmentsQuery();
+  
   return (
     <div className='m-2 rounded-lg p-6 bg-white shadow-2xl'>
         <div className='flex justify-between'>
