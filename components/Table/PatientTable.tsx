@@ -4,10 +4,11 @@ import Image from "next/image";
 import Icon from "@/assets/images/Profile.jpg"
 import ActionButton from "../ActionButton";
 import Link from "next/link";
-import { useState } from "react";
-import * as Select from '@radix-ui/react-select';
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
-import '@/styles/Select.module.css'
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { useDeletePatientMutation } from "@/features/patientSlice";
+import toast from "react-hot-toast";
+
 
 export const calculateAge = (dob: string | undefined): string => {
   if (!dob) return 'N/A';
@@ -23,7 +24,7 @@ export const calculateAge = (dob: string | undefined): string => {
     months += 12;
   }
 
-  
+
   const ageString = years > 0 ? `${years} years` : '';
   const monthsString = months > 0 ? `${months} months` : '';
 
@@ -70,6 +71,13 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   }
 
 
+
+  const [deletePatient] = useDeletePatientMutation();
+
+  const handleDeletePatient = (id:string) => {
+    deletePatient(id).unwrap().then(()=> { toast.success("Patient Deleted")}
+    ).catch(()=> { toast.error("Error, Deleting Patient")})
+  }
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default ">
@@ -163,7 +171,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           <p className="font-medium text-black p-3">Contact</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium text-black p-3">Profit</p>
+          <p className="font-medium text-black p-3">Actions</p>
         </div>
       </div>
 
@@ -190,6 +198,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           <div className="col-span-2 hidden items-center sm:flex">
             <p className="text-sm text-black p-2">
               {calculateAge(patient?.dateOfBirth)}
+              
             </p>
           </div>
           <div className="col-span-2 flex items-center">
@@ -200,8 +209,9 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black p-2">{patient?.contact}</p>
           </div>
-          <div className="col-span-1 flex items-center">
-            <p className="text-sm text-meta-3 p-2 text-black">$ {index}</p>
+          <div className="items-center flex space-x-2">
+            <Link href={`/patients/edit-patient/${patient?._id}`}><FaEdit className="text-meta-3 cursor-pointer" /></Link>
+            <MdDelete className="text-red-500 cursor-pointer" onClick={() => handleDeletePatient(patient?._id)} />
           </div>
         </div>
       ))}

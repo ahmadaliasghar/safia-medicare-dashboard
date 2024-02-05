@@ -82,19 +82,19 @@ const NewAppointmentCard: React.FC<NewAppointmentCard> = ({ appointment }) => {
                 </div>
                 <div className="flex justify-between my-2">
                     <div>
-                        <p className='text-gray-600'>Appointment ID</p>
+                        <p className='text-gray-600 font-bold'>Appointment ID</p>
                         <p className='text-black'># {appointment?._id}</p>
                     </div>
                     <div>
-                        <p className='text-gray-600'>Date</p>
+                        <p className='text-gray-600 font-bold'>Date</p>
                         <p className='text-black'>{appointment?.date}</p>
                     </div>
                     <div>
-                        <p className='text-gray-600'>Time</p>
+                        <p className='text-gray-600 font-bold'>Time</p>
                         <p className='text-black'>{appointment?.time}</p>
                     </div>
                     <div>
-                        <p className='text-gray-600'>Service</p>
+                        <p className='text-gray-600 font-bold'>Service</p>
                         <p className='text-black'>{appointment?.title}</p>
                     </div>
                 </div>
