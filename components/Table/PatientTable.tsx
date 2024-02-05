@@ -105,57 +105,6 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
       {/* Filter dropdown */}
       <div className="py-2 px-4 md:px-6 xl:px-7.5 flex items-center">
         <label className="text-black font-medium mr-2">Filter by:</label>
-        <Select.Root>
-    <Select.Trigger className="SelectTrigger" aria-label="Food">
-      <Select.Value placeholder="Select a fruit…" />
-      <Select.Icon className="SelectIcon">
-        <ChevronDownIcon />
-      </Select.Icon>
-    </Select.Trigger>
-    <Select.Portal>
-      <Select.Content className="SelectContent">
-        <Select.ScrollUpButton className="SelectScrollButton">
-          <ChevronUpIcon />
-        </Select.ScrollUpButton>
-        <Select.Viewport className="SelectViewport">
-          <Select.Group>
-            <Select.Label className="SelectLabel">Fruits</Select.Label>
-            <Select.SelectItem value="apple">Apple</Select.SelectItem>
-            <Select.SelectItem value="banana">Banana</Select.SelectItem>
-            <Select.SelectItem value="blueberry">Blueberry</Select.SelectItem>
-            <Select.SelectItem value="grapes">Grapes</Select.SelectItem>
-            <Select.SelectItem value="pineapple">Pineapple</Select.SelectItem>
-          </Select.Group>
-
-          <Select.Separator className="SelectSeparator" />
-
-          <Select.Group>
-            <Select.Label className="SelectLabel">Vegetables</Select.Label>
-            <Select.SelectItem value="aubergine">Aubergine</Select.SelectItem>
-            <Select.SelectItem value="broccoli">Broccoli</Select.SelectItem>
-            <Select.SelectItem value="carrot" disabled>
-              Carrot
-            </Select.SelectItem>
-            <Select.SelectItem value="courgette">Courgette</Select.SelectItem>
-            <Select.SelectItem value="leek">Leek</Select.SelectItem>
-          </Select.Group>
-
-          <Select.Separator className="SelectSeparator" />
-
-          <Select.Group>
-            <Select.Label className="SelectLabel">Meat</Select.Label>
-            <Select.SelectItem value="beef">Beef</Select.SelectItem>
-            <Select.SelectItem value="chicken">Chicken</Select.SelectItem>
-            <Select.SelectItem value="lamb">Lamb</Select.SelectItem>
-            <Select.SelectItem value="pork">Pork</Select.SelectItem>
-          </Select.Group>
-        </Select.Viewport>
-        <Select.ScrollDownButton className="SelectScrollButton">
-          <ChevronDownIcon />
-        </Select.ScrollDownButton>
-      </Select.Content>
-    </Select.Portal>
-  </Select.Root>
       </div>
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-2 flex items-center">
