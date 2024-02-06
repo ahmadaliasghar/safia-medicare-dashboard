@@ -17,7 +17,8 @@ const useForm = () => {
         lastName: '',
         email: '',
         dateOfBirth: '',
-        contact: ''
+        contact: '',
+        gender: ''
     });
 
     const handleChange = (field: string, value: any) => {
@@ -111,13 +112,13 @@ const PatientForm = () => {
             if (id) {
                 updatePatient({ patientId: id, body: dataToSend }).unwrap().then(() => {
                     toast.success('Patient updated successfully')
-                    setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '' });
+                    setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '', gender: '' });
                     router.push("/patients")
                 }).catch(() => {})
             } else {
                 addPatient(formData).unwrap().then(() => {
                     toast.success('Patient added successfully')
-                    setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '' });
+                    setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '', gender: '' });
                     router.push("/patients")}).catch(()=>{})
             }
     };
@@ -190,7 +191,7 @@ const PatientForm = () => {
                                             <DatePicker
                                                 label="Date of Birth"
                                                 className='w-full'
-                                                value={dayjs(formData?.dateOfBirth)} // Convert to JavaScript Date object
+                                                value={dayjs(formData?.dateOfBirth) || null} // Convert to JavaScript Date object
                                                 onChange={(date) => handleChange('dateOfBirth', date)}
                                             />
                                         </DemoContainer>
@@ -198,6 +199,46 @@ const PatientForm = () => {
 
 
                                 </div>
+                                <div className="w-full md:w-1/2 ml-3">
+    <label className="mb-2.5 block text-black dark:text-white">
+        Gender
+    </label>
+    <div className="flex space-x-4">
+        <label className="flex items-center">
+            <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={formData.gender === 'male'}
+                onChange={(e) => handleChange('gender', e.target.value)}
+                className="mr-2"
+            />
+            Male
+        </label>
+        <label className="flex items-center">
+            <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={formData.gender === 'female'}
+                onChange={(e) => handleChange('gender', e.target.value)}
+                className="mr-2"
+            />
+            Female
+        </label>
+        <label className="flex items-center">
+            <input
+                type="radio"
+                name="gender"
+                value="other"
+                checked={formData.gender === 'other'}
+                onChange={(e) => handleChange('gender', e.target.value)}
+                className="mr-2"
+            />
+            Other
+        </label>
+    </div>
+    </div>
                                 <div className="w-full md:w-1/2 ml-3">
                                     <label className="mb-2.5 block text-black dark:text-white">
                                         Phone Number

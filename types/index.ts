@@ -12,6 +12,7 @@ export interface Patient {
     dateOfBirth: string;
     contact: string;
     email: string;
+    gender: string;
 }
 
 export interface Doctor {
@@ -38,4 +39,11 @@ export interface Appointment {
     status?:number;
     message?: string;
     success?: boolean
+  }
+
+  export interface Diagnose {
+    id?: string;
+    status: string;
+    diagnosis: string;
+    disease: string;
   }
