@@ -1,24 +1,20 @@
 'use client'
-import { useAddPatientMutation, useGetPatientQuery, useGetPatientsQuery, useUpdatePatientMutation } from '@/features/patientSlice';
-import { Patient } from '@/types';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { useAddDoctorMutation, useGetDoctorsQuery } from '@/features/doctorSlice';
+import { Doctor } from '@/types';
 import { useRouter, useParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast';
-import moment from 'moment';
-import dayjs from 'dayjs';
 import ActionButton from '@/components/ActionButton';
 
 const useForm = () => {
-    const [formData, setFormData] = React.useState<Patient>({
-        firstName: '',
-        lastName: '',
-        email: '',
-        dateOfBirth: '',
+    const [formData, setFormData] = React.useState<Doctor>({
+        name: '',
         contact: '',
-        gender: ''
+        speciality: '',
+        degree: '',
+        email: '',
+        username: '',
+        status: 'active'
     });
 
     const handleChange = (field: string, value: any) => {
@@ -37,51 +33,42 @@ const DoctorForm = () => {
     const params = useParams();
     const { id } = params;
 
-    const [addPatient] = useAddPatientMutation();
-    const [updatePatient] = useUpdatePatientMutation();
+    const [addDoctor] = useAddDoctorMutation();
     const { formData, setFormData, handleChange } = useForm();
-    const [errors, setErrors] = React.useState<Patient>();
+    const [errors, setErrors] = React.useState<Doctor>();
     const {
-        data: patient,
+        data: doctor,
         isLoading,
         isSuccess,
         isError,
         error,
-    } = useGetPatientQuery(id);
-    console.log("🚀 ~ DoctorForm ~ patient:", patient?.patient)
+    } = useGetDoctorsQuery(id);
+    console.log("🚀 ~ DoctorForm ~ doctor:", doctor?.doctor)
     React.useEffect(() => {
-        if (patient && patient.patient) {
-            setFormData(patient.patient);
+        if (doctor && doctor.doctor) {
+            setFormData(doctor.doctor);
         }
-    }, [patient]);
+    }, [doctor]);
 
     const router = useRouter();
 
-    const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        // e.preventDefault();
-        // if (!validateForm()) {
-        //     return;
-        // }
-        let dataToSend = { ...formData }; // Create a copy of formData
-
-        // Exclude _id property
-        if (dataToSend._id) {
-            delete dataToSend._id;
-        }
-
-        if (id) {
-            updatePatient({ patientId: id, body: dataToSend }).unwrap().then(() => {
-                toast.success('Doctor updated successfully')
-                setFormData({ name: '', contact: '', speciality: '', degree: '', email: '', username: '' });
+    const handleSave = async () => {
+        addDoctor(formData)
+            .unwrap()
+            .then(() => {
+                toast.success('Doctor added successfully');
+                setFormData({
+                    name: '',
+                    contact: '',
+                    speciality: '',
+                    degree: '',
+                    email: '',
+                    username: '',
+                    status: '',
+                });
                 router.push("/doctors")
-            }).catch(() => { })
-        } else {
-            addPatient(formData).unwrap().then(() => {
-                toast.success('Patient added successfully')
-                setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '', gender: '' });
-                router.push("/doctors")
-            }).catch(() => { })
-        }
+            })
+            .catch(() => { });
     };
 
     return (
@@ -113,21 +100,21 @@ const DoctorForm = () => {
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="Enter your first name"
+                                        placeholder="Enter your name"
                                         value={formData.name}
-                                        onChange={(e) => handleChange('firstName', e.target.value)}
+                                        onChange={(e) => handleChange('name', e.target.value)}
                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
                                 </div>
                                 <div className="w-full md:w-1/2 ml-3">
                                     <label className="mb-2.5 block text-black dark:text-white">
-                                        Last name
+                                        User Name
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="Enter your last name"
-                                        value={formData.lastName}
-                                        onChange={(e) => handleChange('lastName', e.target.value)}
+                                        placeholder="Enter your user name"
+                                        value={formData.username}
+                                        onChange={(e) => handleChange('username', e.target.value)}
                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
                                 </div>
@@ -144,63 +131,6 @@ const DoctorForm = () => {
                                     />
                                 </div>
                                 <div className="w-full md:w-1/2 ml-3">
-                                    <label className="mb-2.5 block text-black dark:text-white ">
-                                        Date of Birth
-                                    </label>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']}>
-                                            <DatePicker
-                                                label="Date of Birth"
-                                                className='w-full'
-                                                value={dayjs(formData?.dateOfBirth) || null} // Convert to JavaScript Date object
-                                                onChange={(date) => handleChange('dateOfBirth', date)}
-                                            />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-
-
-                                </div>
-                                <div className="w-full md:w-1/2 ml-3">
-                                    <label className="mb-2.5 block text-black dark:text-white">
-                                        Gender
-                                    </label>
-                                    <div className="flex space-x-4">
-                                        <label className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                name="gender"
-                                                value="male"
-                                                checked={formData.gender === 'male'}
-                                                onChange={(e) => handleChange('gender', e.target.value)}
-                                                className="mr-2"
-                                            />
-                                            Male
-                                        </label>
-                                        <label className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                name="gender"
-                                                value="female"
-                                                checked={formData.gender === 'female'}
-                                                onChange={(e) => handleChange('gender', e.target.value)}
-                                                className="mr-2"
-                                            />
-                                            Female
-                                        </label>
-                                        <label className="flex items-center">
-                                            <input
-                                                type="radio"
-                                                name="gender"
-                                                value="other"
-                                                checked={formData.gender === 'other'}
-                                                onChange={(e) => handleChange('gender', e.target.value)}
-                                                className="mr-2"
-                                            />
-                                            Other
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="w-full md:w-1/2 ml-3">
                                     <label className="mb-2.5 block text-black dark:text-white">
                                         Phone Number
                                     </label>
@@ -212,10 +142,32 @@ const DoctorForm = () => {
                                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     />
                                 </div>
+                                <div className="w-full md:w-1/2 ml-3">
+                                    <label className="mb-2.5 block text-black dark:text-white ">
+                                        Degree
+                                    </label>
+                                    <input
+                                        type="degree"
+                                        placeholder="Enter your degree"
+                                        value={formData.degree}
+                                        onChange={(e) => handleChange('degree', e.target.value)}
+                                        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    />
+                                </div>
+                                <div className="w-full md:w-1/2 ml-3">
+                                    <label className="mb-2.5 block text-black dark:text-white ">
+                                        Speciality
+                                    </label>
+                                    <input
+                                        type="speciality"
+                                        placeholder="Enter your speciality"
+                                        value={formData.speciality}
+                                        onChange={(e) => handleChange('speciality', e.target.value)}
+                                        className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    />
+                                </div>
                             </div>
-
                         </form>
-
                     </div>
                 </div>
             </div>

@@ -114,7 +114,8 @@ const PatientForm = () => {
                     toast.success('Patient updated successfully')
                     setFormData({ firstName: '', lastName: '', email: '', dateOfBirth: '', contact: '', gender: '' });
                     router.push("/patients")
-                }).catch(() => {})
+                })
+                .catch(() => {})
             } else {
                 addPatient(formData).unwrap().then(() => {
                     toast.success('Patient added successfully')

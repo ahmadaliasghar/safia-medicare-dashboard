@@ -22,6 +22,7 @@ export interface Doctor {
     degree: string;
     email: string;
     username: string;
+    status: string;
 }
 
 export interface Appointment {
