@@ -47,13 +47,13 @@ const Page = () => {
   } = useGetPatientsQuery();
 
   const filteredData = data?.patients?.filter((patient) => {
-    const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase();
+    const fullName = `${patient?.firstName} ${patient?.lastName}`.toLowerCase();
 
     if (
       !searchTerm ||
       fullName.includes(searchTerm.toLowerCase()) ||
-      patient.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      patient.contact.includes(searchTerm)
+      patient?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      patient?.contact.includes(searchTerm)
     ) {
       return true;
     }
