@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Patient } from "@/types";
 import Image from "next/image";
 import Icon from "@/assets/images/Profile.jpg"
-import ActionButton from "../ActionButton";
+import ActionButton from "@/components/ActionButton";   
 import Link from "next/link";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useDeletePatientMutation } from "@/features/patientSlice";
+import { useDeletePatientMutation, useGetPatientsQuery } from "@/features/patientSlice";
 import toast from "react-hot-toast";
 
 
@@ -33,15 +33,20 @@ export const calculateAge = (dob: string | undefined): string => {
 };
 
 
-interface PatientTableProps {
-  data: Patient[];
-}
-
-const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
+const Page = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCriteria, setFilterCriteria] = useState<string | null>('name'); // Set default criteria to 'name'
 
-  const filteredData = data.filter((patient) => {
+    
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPatientsQuery();
+
+  const filteredData = data?.patients?.filter((patient) => {
     const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase();
 
     if (
@@ -56,7 +61,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   });
 
   if (filterCriteria) {
-    filteredData.sort((a, b) => {
+    filteredData?.sort((a, b) => {
       const criteriaA =
         filterCriteria === 'name'
           ? `${a.firstName} ${a.lastName}`
@@ -143,9 +148,9 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
                   alt="Product"
                 />
               </div>
-              <p className="text-sm text-black p-2">
+              <Link href={`/diagnose/${patient?._id}`} className="text-sm text-black p-2">
                 {patient.firstName + " " + patient?.lastName}
-              </p>
+              </Link>
             </div>
           </div>
           <div className="col-span-1 hidden items-center sm:flex">
@@ -177,4 +182,4 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   );
 };
 
-export default PatientTable;
+export default Page;
