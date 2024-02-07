@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { useGetPatientDiagnosisQuery, useGetPatientQuery } from '@/features/patientSlice';
+import { useAddPatientDiagnosisMutation, useGetPatientDiagnosisQuery, useGetPatientQuery } from '@/features/patientSlice';
 import { Patient } from '@/types';
 import { useParams } from 'next/navigation';
 import { Grid, Typography, TextField, Button, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, InputAdornment, IconButton, Collapse, Box } from '@mui/material';
@@ -37,6 +37,7 @@ const Page = () => {
         isError,
         error,
     } = useGetPatientQuery(id);
+    const [addPatientDiagnosis] = useAddPatientDiagnosisMutation();
 
     const {
         data: diagnose,
@@ -45,6 +46,7 @@ const Page = () => {
         isError: isErrorDiagnosis,
         error: errorDiagnosis,
     } = useGetPatientDiagnosisQuery(id);
+        console.log("🚀 ~ Page ~ diagnose:", diagnose)
 
     React.useEffect(() => {
         if (patient && patient.patient) {
@@ -76,12 +78,17 @@ const Page = () => {
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        let data = {
+            "status": status,
+            "diagnosis": diagnosis,
+            "disease": disease
+        }
         e.preventDefault();
-
+        addPatientDiagnosis({patientId: id as string, body: data}).unwrap().then((res)=>{}).catch((err)=>{console.log(err)})
     };
 
     return (
-        <Grid container spacing={4} justifyContent="center" className="m-4">
+        <Grid container spacing={4} justifyContent="center">
             <Grid item xs={12} md={6} className='h-auto'>
                 <Paper elevation={3} sx={{ padding: 4 }}>
                     <Typography variant="h5" align="center" gutterBottom>
@@ -198,7 +205,7 @@ const Page = () => {
             </TableRow>
         </TableHead>
         <TableBody>
-            {previousHistory.map((history, index) => (
+            {diagnose?.diagnosis.map((history, index) => (
                 <React.Fragment key={index}>
                     <TableRow>
                         <TableCell>{history.status}</TableCell>
@@ -214,7 +221,7 @@ const Page = () => {
                                 {openRows.includes(index) ? <MdOutlineKeyboardArrowUp size={22} /> : <MdOutlineKeyboardArrowDown size={22} />}
                             </IconButton> See
                         </TableCell>
-                        <TableCell>{history.time}</TableCell>
+                        <TableCell>{history?.time}</TableCell>
                     </TableRow>
                     {openRows.includes(index) && (
                         <TableRow>

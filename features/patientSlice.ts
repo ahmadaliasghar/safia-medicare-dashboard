@@ -53,4 +53,4 @@ export const patientSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetPatientsQuery, useGetPatientQuery, useAddPatientMutation, useUpdatePatientMutation, useDeletePatientMutation, useGetPatientDiagnosisQuery, } = patientSlice;
+export const { useGetPatientsQuery, useGetPatientQuery, useAddPatientMutation, useUpdatePatientMutation, useDeletePatientMutation, useGetPatientDiagnosisQuery, useAddPatientDiagnosisMutation} = patientSlice;
