@@ -28,7 +28,8 @@ export interface Appointment {
     _id?: string;
     title: string;
     date: string;
-    time: string;
+    startTime: string;
+    endTime: string;
     status: string;
     patient: string | Person;
     doctor: string | Person;

@@ -22,13 +22,14 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
   },
-  { field: 'time', headerName: <b>AppointmentTime</b>, width: 180 },
   {
     field: 'date',
     headerName: <b>Date</b>,
     type: 'string',
     width: 120,
   },
+  { field: 'start', headerName: <b>Start Time</b>, width: 180 },
+  { field: 'end', headerName: <b>End Time</b>, width: 180 },
   {
     field: 'status',
     headerName: <b>Status</b>,
@@ -93,7 +94,8 @@ const Page = () => {
         id: appointment?._id as string,
         title: appointment?.title,
         patient: (appointment?.patient as Person)?.name,
-        time: appointment?.time,
+        start: appointment?.startTime,
+        end: appointment?.endTime,
         date: appointment?.date,
         status: appointment?.status,
         doctor: (appointment?.doctor as Person)?.name
@@ -109,7 +111,6 @@ const Page = () => {
       const filtered = rows?.filter(appointment =>
         appointment.title.toLowerCase().includes(term.toLowerCase()) ||
         (appointment.patient as Person)?.name?.toLowerCase().includes(term.toLowerCase()) ||
-        appointment.time.toLowerCase().includes(term.toLowerCase()) ||
         appointment.date.toLowerCase().includes(term.toLowerCase()) ||
         (appointment.doctor as Person)?.name?.toLowerCase().includes(term.toLowerCase())
       );

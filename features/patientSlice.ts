@@ -11,13 +11,15 @@ export const patientSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/patient/${id}`,
         method: "GET",
-      })
+      }),
+      providesTags:['Patient']
     }),
     getPatientDiagnosis: builder.query({
       query: (id) => ({
         url: `/diagnose/${id}`,
         method: "GET",
-      })
+      }),
+      providesTags:['Patient']
     }),
     addPatient: builder.mutation({
       query: (patient) => ({

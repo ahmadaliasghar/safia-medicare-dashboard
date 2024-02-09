@@ -20,7 +20,8 @@ const AppointmentForm: React.FC = () => {
   const [formData, setFormData] = useState<Appointment>({
     title: '',
     date: '',
-    time: '',
+    startTime: '',
+    endTime: '',
     doctor: '',
     patient: '',
     status: 'pending',
@@ -58,7 +59,8 @@ const AppointmentForm: React.FC = () => {
           setFormData((prevFormData) => ({
             title: '',
             date: '',
-            time: '',
+            startTime: '',
+            endTime: '',
             doctor: '',
             patient: '',
             status: 'pending',
@@ -134,13 +136,27 @@ const AppointmentForm: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="time" className="block text-gray-800 mb-2">
-              Appointment Time
+              Appointment Start Time
             </label>
             <input
               type="time"
               id="time"
               name="time"
-              value={formData.time}
+              value={formData.startTime}
+              onChange={handleChange}
+              className="w-full px-4 py-2 text-black border rounded-md focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="time" className="block text-gray-800 mb-2">
+              Appointment End Time
+            </label>
+            <input
+              type="time"
+              id="time"
+              name="time"
+              value={formData.endTime}
               onChange={handleChange}
               className="w-full px-4 py-2 text-black border rounded-md focus:outline-none focus:border-blue-500"
               required

@@ -9,6 +9,8 @@ export const POST = async (request: NextRequest, { params }: { params: { id: str
       const req = await request.json();
       const patientId = params?.id ? new ObjectId(params.id) : null;
 
+      console.log("🚀 ~ POST ~ req:", req)
+      
       if (!patientId) {
           return NextResponse.json({
               success: false,
@@ -17,10 +19,10 @@ export const POST = async (request: NextRequest, { params }: { params: { id: str
           });
       }
 
-      // Add patient ID to the diagnosis data
       req.patientId = params?.id;
       req.time = new Date();
 
+      console.log("🚀 ~ POST ~ req:", req)
       // Save the diagnosis
       await db.collection('diagnoses').insertOne(req);
 
@@ -40,11 +42,12 @@ export const POST = async (request: NextRequest, { params }: { params: { id: str
   }
 };
 
-export const GET = async ({ params }: { params: { id: string } }) => {
+export const GET = async (request: NextRequest, { params }: { params: { id: string } }) => {
+    console.log(params?.id);
   try {
       const db = await connectToDatabase();
-      
       const diagnosis = await db.collection('diagnoses').find({"patientId": params?.id}).toArray();
+      console.log("🚀 ~ GET ~ diagnosis:", diagnosis)
 
       if (!diagnosis) {
           return NextResponse.json({
