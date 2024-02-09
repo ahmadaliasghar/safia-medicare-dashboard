@@ -24,9 +24,9 @@ const NewAppointmentView = () => {
       {isLoading && (<Loader />)}
       {!isLoading && (
         allAppointments?.appointments
-          .filter((appointment) => appointment.status === 'pending')
+          ?.filter((appointment) => appointment.status === 'pending')
           .map((filteredAppointment) => (
-            <NewAppointmentCard key={filteredAppointment.id} appointment={filteredAppointment} />
+            <NewAppointmentCard key={filteredAppointment?.id} appointment={filteredAppointment} />
           ))
       )}
 

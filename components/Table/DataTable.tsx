@@ -61,13 +61,7 @@ const columns: GridColDef[] = [
       </Button>
     ),
   },
-  {
-    field: 'patient',
-    headerName: 'Patient',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 110,
-  },
+
 ];
 
 
@@ -81,11 +75,9 @@ const DataTable: React.FC<DoctorTableProp> = ({ data }) => {
   } = useGetDoctorsQuery();
   console.log("🚀 ~ DataTable ~ allDoctors:", allDoctors)
 
-  const [addDoctor] = useAddDoctorMutation();
-
   let rows: Doctor[] = [];
 
-  allDoctors.doctors?.forEach((doctors: Doctor) => {
+  allDoctors?.doctors?.forEach((doctors: Doctor) => {
     rows.push({
       id: doctors?._id as string,
       name: doctors?.name,
@@ -93,7 +85,8 @@ const DataTable: React.FC<DoctorTableProp> = ({ data }) => {
       degree: doctors?.degree,
       speciality: doctors?.speciality,
       username: doctors?.username,
-      email: doctors?.email
+      email: doctors?.email,
+      status: doctors?.status,
     });
   });
 

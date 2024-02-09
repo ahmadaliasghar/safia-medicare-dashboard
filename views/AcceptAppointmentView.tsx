@@ -23,9 +23,9 @@ const AcceptAppointmentView = () => {
             {isLoading && (<Loader />)}
             {!isLoading && (
                 allAppointments?.appointments
-                    .filter((appointment) => appointment.status === 'accepted')
+                    ?.filter((appointment) => appointment.status === 'accepted')
                     .map((filteredAppointment) => (
-                        <AcceptAppointmentCard key={filteredAppointment.id} appointment={filteredAppointment} />
+                        <AcceptAppointmentCard key={filteredAppointment?.id} appointment={filteredAppointment} />
                     ))
             )}
         </div>
