@@ -35,12 +35,12 @@ const TodayAppointmentView = () => {
       {isLoading && (<Loader />)}
       {!isLoading && (
         allAppointments?.appointments
-          .filter((appointment) =>
+          ?.filter((appointment) =>
             appointment.status === 'accepted' &&
             isCurrentDateAppointment(new Date(appointment.date))
           )
           .map((filteredAppointment) => (
-            <TodayAppointmentCard key={filteredAppointment.id} appointment={filteredAppointment} />
+            <TodayAppointmentCard key={filteredAppointment?.id} appointment={filteredAppointment} />
           ))
       )}
 

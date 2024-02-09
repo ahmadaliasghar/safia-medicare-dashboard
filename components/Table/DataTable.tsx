@@ -11,21 +11,25 @@ interface DoctorTableProp {
 
 const columns: GridColDef[] = [
   {
-    field: 'avatar',
+    field: 'name',
     headerName: 'Doctor',
     width: 220,
     renderCell: (params) => (
       <Box display="flex" alignItems="center">
         <Avatar src="" />
         <Typography variant="body1" ml={1}>
-          {params.row.firstName}
+          {params.row.name}
         </Typography>
       </Box>
     ),
     sortable: false,
     filterable: false,
   },
-  { field: 'function', headerName: 'Specialist ', width: 180 },
+  { field: 'speciality', headerName: 'Specialist ', width: 110 },
+  { field: 'degree', headerName: 'Degree', width: 110 },
+  { field: 'username', headerName: 'User Name ', width: 110 },
+  { field: 'email', headerName: 'Email', width: 150 },
+  { field: 'contact', headerName: 'Phone Number', width: 110 },
   {
     field: 'status',
     headerName: 'Status',
@@ -57,28 +61,11 @@ const columns: GridColDef[] = [
       </Button>
     ),
   },
-  {
-    field: 'patient',
-    headerName: 'Patient',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 180,
-  },
+
 ];
 
-const rows = [
-  { id: 1, function: 'Snow', firstName: 'Jon', status: 'active', patient: '200' },
-  { id: 2, function: 'Lannister', firstName: 'Cersei', status: 'unactive', patient: '300' },
-  { id: 3, function: 'Lannister', firstName: 'Jaime', status: 'unactive', patient: '100' },
-  { id: 4, function: 'Stark', firstName: 'Arya', status: 'active', patient: '700' },
-  { id: 5, function: 'Targaryen', firstName: 'Daenerys', status: 'active', patient: '900' },
-  { id: 6, function: 'Melisandre', firstName: null, status: 'active', patient: '250' },
-  { id: 7, function: 'Clifford', firstName: 'Ferrara', status: 'active', patient: '200' },
-  { id: 8, function: 'Frances', firstName: 'Rossini', status: 'active', patient: '600' },
-  { id: 9, function: 'Roxie', firstName: 'Harvey', status: 'active', patient: '800' },
-];
 
-const DataTable:React.FC<DoctorTableProp> = ({data}) => {
+const DataTable: React.FC<DoctorTableProp> = ({ data }) => {
   const {
     data: allDoctors,
     isLoading,
@@ -86,12 +73,25 @@ const DataTable:React.FC<DoctorTableProp> = ({data}) => {
     isError,
     error,
   } = useGetDoctorsQuery();
-    console.log("🚀 ~ DataTable ~ allDoctors:", allDoctors)
+  console.log("🚀 ~ DataTable ~ allDoctors:", allDoctors)
 
-  const [addDoctor] = useAddDoctorMutation();
+  let rows: Doctor[] = [];
+
+  allDoctors?.doctors?.forEach((doctors: Doctor) => {
+    rows.push({
+      id: doctors?._id as string,
+      name: doctors?.name,
+      contact: doctors?.contact,
+      degree: doctors?.degree,
+      speciality: doctors?.speciality,
+      username: doctors?.username,
+      email: doctors?.email,
+      status: doctors?.status,
+    });
+  });
 
   return (
-    <div style={{ height: 400, width: '97%',marginLeft:'10px'}}>
+    <div style={{ height: 400, width: '97%', marginLeft: '10px' }}>
       <DataGrid
         rows={rows}
         columns={columns}
