@@ -135,13 +135,13 @@ const AppointmentForm: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="time" className="block text-gray-800 mb-2">
+            <label htmlFor="startTime" className="block text-gray-800 mb-2">
               Appointment Start Time
             </label>
             <input
               type="time"
-              id="time"
-              name="time"
+              id="startTime"
+              name="startTime"
               value={formData.startTime}
               onChange={handleChange}
               className="w-full px-4 py-2 text-black border rounded-md focus:outline-none focus:border-blue-500"
@@ -149,13 +149,13 @@ const AppointmentForm: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="time" className="block text-gray-800 mb-2">
+            <label htmlFor="endTime" className="block text-gray-800 mb-2">
               Appointment End Time
             </label>
             <input
               type="time"
-              id="time"
-              name="time"
+              id="endTime"
+              name="endTime"
               value={formData.endTime}
               onChange={handleChange}
               className="w-full px-4 py-2 text-black border rounded-md focus:outline-none focus:border-blue-500"

@@ -2,7 +2,7 @@
 import Loader from '@/components/Loader';
 import { useGetAppointmentsQuery, useDeleteAppointmentMutation } from '@/features/appointmentSlice';
 import { Appointment, Person } from '@/types';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { HiSearch } from 'react-icons/hi';
@@ -48,17 +48,42 @@ const columns: GridColDef[] = [
     width: 120,
     sortable: false,
     filterable: false,
-    renderCell: (params) => (
-      <div className="flex">
-        <button className="mr-2 text-gray-600">
-          <AiOutlineEdit />
-        </button>
-        <button className="text-red-600" >
-          <AiOutlineDelete />
-        </button>
-      </div>
-    ),
+    renderCell: ({ id }) => {
+      console.log("🚀 ~ id:", id)
+      const handleEditClick = () => {
+        console.log("Edit")
+      }
+      const handleDeleteClick = () => {
+        console.log("Delete")
+      }
+      return [
+        <GridActionsCellItem
+          icon={<AiOutlineEdit />}
+          label="Edit"
+          className="textPrimary"
+          onClick={() => handleEditClick(id)}
+          color="inherit"
+        />,
+        <GridActionsCellItem
+          icon={<AiOutlineDelete />}
+          label="Delete"
+          onClick={() => handleDeleteClick(id)}
+          color="inherit"
+        />,
+      ];
+    },
+    // renderCell: (params) => (
+    //   <div className="flex">
+    //     <button className="mr-2 text-gray-600">
+    //       <AiOutlineEdit />
+    //     </button>
+    //     <button className="text-red-600" >
+    //       <AiOutlineDelete />
+    //     </button>
+    //   </div>
+    // ),
   },
+  
 ];
 
 const Page = () => {
