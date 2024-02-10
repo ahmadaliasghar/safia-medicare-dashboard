@@ -6,87 +6,126 @@ import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { HiSearch } from 'react-icons/hi';
+import Swal from 'sweetalert2';
 
-const columns: GridColDef[] = [
-  {
-    field: 'title',
-    headerName: <b>Appointment Title</b>,
-    width: 220,
-    sortable: false,
-    filterable: false,
-  },
-  {
-    field: 'patient',
-    headerName: <b>Patient</b>,
-    width: 220,
-    sortable: false,
-    filterable: false,
-  },
-  {
-    field: 'date',
-    headerName: <b>Date</b>,
-    type: 'string',
-    width: 120,
-  },
-  { field: 'start', headerName: <b>Start Time</b>, width: 180 },
-  { field: 'end', headerName: <b>End Time</b>, width: 180 },
-  {
-    field: 'status',
-    headerName: <b>Status</b>,
-    type: 'string',
-    width: 120,
-  },
-  {
-    field: 'doctor',
-    headerName: <b>Doctor</b>,
-    sortable: false,
-    width: 180,
-  },
-  {
-    field: 'actions',
-    headerName: 'Actions',
-    width: 120,
-    sortable: false,
-    filterable: false,
-    renderCell: ({ id }) => {
-      console.log("🚀 ~ id:", id)
-      const handleEditClick = () => {
-        console.log("Edit")
-      }
-      const handleDeleteClick = () => {
-        console.log("Delete")
-      }
-      return [
-        <GridActionsCellItem
-          icon={<AiOutlineEdit />}
-          label="Edit"
-          className="textPrimary"
-          onClick={() => handleEditClick(id)}
-          color="inherit"
-        />,
-        <GridActionsCellItem
-          icon={<AiOutlineDelete />}
-          label="Delete"
-          onClick={() => handleDeleteClick(id)}
-          color="inherit"
-        />,
-      ];
-    },
-    // renderCell: (params) => (
-    //   <div className="flex">
-    //     <button className="mr-2 text-gray-600">
-    //       <AiOutlineEdit />
-    //     </button>
-    //     <button className="text-red-600" >
-    //       <AiOutlineDelete />
-    //     </button>
-    //   </div>
-    // ),
-  },
-  
-];
 
 const Page = () => {
+
+  const [deleteAppointment] = useDeleteAppointmentMutation();
+
+  const columns: GridColDef[] = [
+    {
+      field: 'title',
+      headerName: <b>Appointment Title</b>,
+      width: 220,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: 'patient',
+      headerName: <b>Patient</b>,
+      width: 220,
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: 'date',
+      headerName: <b>Date</b>,
+      type: 'string',
+      width: 120,
+    },
+    { field: 'start', headerName: <b>Start Time</b>, width: 180 },
+    { field: 'end', headerName: <b>End Time</b>, width: 180 },
+    {
+      field: 'status',
+      headerName: <b>Status</b>,
+      type: 'string',
+      width: 120,
+      renderCell: ({ value }) => {
+        let statusColor = '';
+        switch (value) {
+          case 'accepted':
+            statusColor = 'text-green-500';
+            break;
+          case 'rejected':
+            statusColor = 'text-red-500';
+            break;
+          case 'pending':
+            statusColor = 'text-blue-500';
+            break;
+          default:
+            statusColor = '';
+        }
+        return <span className={`font-bold ${statusColor}`}>{value}</span>;
+      },
+    },
+    {
+      field: 'doctor',
+      headerName: <b>Doctor</b>,
+      sortable: false,
+      width: 180,
+    },
+    {
+      field: 'actions',
+      headerName: <b>Actions</b>,
+      width: 120,
+      sortable: false,
+      filterable: false,
+      renderCell: ({ id }) => {
+        // console.log("🚀 ~ id:", id)
+        const handleEditClick = () => {
+          console.log("Edit")
+        }
+        const handleDeleteClick = async (id) => {
+          Swal.fire({
+            title: 'Are you sure?',
+            text: 'You want to delete this appointment!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true,
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+              try {
+                await deleteAppointment(id).unwrap();
+                Swal.fire(
+                  'Deleted!',
+                  'Your appointment has been deleted.',
+                  'success'
+                );
+              } catch (error) {
+                Swal.fire(
+                  'Error!',
+                  'Failed to delete appointment. Please try again later.',
+                  'error'
+                );
+                console.error("Failed to delete appointment:", error);
+              }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+            }
+          });
+        };
+
+        return [
+          <GridActionsCellItem
+            icon={<AiOutlineEdit />}
+            label="Edit"
+            className="textPrimary"
+            onClick={() => handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<AiOutlineDelete />}
+            label="Delete"
+            onClick={() => handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+
+  ];
   const {
     data: allAppointments,
     isLoading,
@@ -97,34 +136,19 @@ const Page = () => {
   const [filteredRows, setFilteredRows] = useState<Appointment[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [deleteAppointment] = useDeleteAppointmentMutation();
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteAppointment(id).unwrap();
-    } catch (error) {
-      console.error('Failed to delete appointment:', error);
-    }
-  };
-
-  const handleEdit = (id: string) => {
-    // Implement edit logic here
-  };
-
-  
-  let rows:Appointment[] = [];
+  let rows: Appointment[] = [];
 
   allAppointments?.appointments?.forEach((appointment: Appointment) => {
     rows.push({
-        id: appointment?._id as string,
-        title: appointment?.title,
-        patient: (appointment?.patient as Person)?.name,
-        start: appointment?.startTime,
-        end: appointment?.endTime,
-        date: appointment?.date,
-        status: appointment?.status,
-        doctor: (appointment?.doctor as Person)?.name
-      });
+      id: appointment?._id as string,
+      title: appointment?.title,
+      patient: (appointment?.patient as Person)?.name,
+      start: appointment?.startTime,
+      end: appointment?.endTime,
+      date: appointment?.date,
+      status: appointment?.status,
+      doctor: (appointment?.doctor as Person)?.name
+    });
   });
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
