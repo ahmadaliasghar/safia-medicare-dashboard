@@ -8,12 +8,16 @@ export default function Page() {
   const { data: appointmentsData } = useGetAppointmentsQuery();
   const [appointments, setAppointments] = useState([]);
 
+  console.log(appointmentsData, 'data')
   useEffect(() => {
     if (appointmentsData && Array.isArray(appointmentsData.appointments)) {
-      const formattedAppointments = appointmentsData.appointments.map(appointment => ({
-        title: appointment.title,
-        start: `${appointment.date}T${appointment.time}`,
-      }));
+      const formattedAppointments = appointmentsData?.appointments
+        ?.filter(appointment => appointment.status !== 'rejected')
+        .map(appointment => ({
+          title: appointment.title,
+          start: `${appointment.date}T${appointment.time}`,
+          status: appointment.status
+        }));
       setAppointments(formattedAppointments);
     }
   }, [appointmentsData]);
@@ -24,9 +28,10 @@ export default function Page() {
       <FullCalendar
         plugins={[dayGridPlugin]}
         initialView='dayGridMonth'
-        weekends={false}
+        weekends={true}
         events={appointments}
         eventContent={renderEventContent}
+        eventClassNames={handleEventClassNames}
       />
     </div>
   );
@@ -34,10 +39,22 @@ export default function Page() {
 
 function renderEventContent(eventInfo) {
   return (
-    <div className='bg-blue-500'>
-      <b className="text-white">{eventInfo.timeText}</b>
-      <i className="text-white">{eventInfo.event.title}</i>
+    <div>
+      <b className="mr-2">{eventInfo.timeText}</b>
+      <i>{eventInfo.event.title}</i>
     </div>
   );
 }
 
+function handleEventClassNames(arg) {
+  const { status } = arg.event.extendedProps;
+  let classNames = '';
+
+  if (status === 'pending') {
+    classNames += ' bg-blue-500 text-white';
+  } else if (status === 'accepted') {
+    classNames += ' bg-green-500 text-white';
+  }
+
+  return classNames;
+}
