@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { useAddPatientDiagnosisMutation, useGetPatientDiagnosisQuery, useGetPatientQuery } from '@/features/patientSlice';
+import { useAddPatientDiagnosisMutation, useGetPatientDiagnosisQuery, useGetPatientQuery, useGetPatientReportMutation } from '@/features/patientSlice';
 import { Patient } from '@/types';
 import { useParams } from 'next/navigation';
 import { Grid, Typography, TextField, Button, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, InputAdornment, IconButton, Collapse, Box, Checkbox } from '@mui/material';
@@ -9,7 +9,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; 
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import MyDocument from "../compnents/Document"
+import PDFPage2 from '../compnents/Document';
 
 
 const Page = () => {
@@ -42,6 +42,7 @@ const Page = () => {
         error,
     } = useGetPatientQuery(id);
     const [addPatientDiagnosis] = useAddPatientDiagnosisMutation();
+    const [getPatientReport] = useGetPatientReportMutation();
 
     const {
         data: diagnose,
@@ -108,6 +109,15 @@ const Page = () => {
         }
         e.preventDefault();
         addPatientDiagnosis({patientId: id as string, body: data}).unwrap().then((res)=>{}).catch((err)=>{console.log(err)})
+    };
+    const handleReportSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        let data = {
+            "status": status,
+            "diagnosis": diagnosis,
+            "disease": disease
+        }
+        e.preventDefault();
+        getPatientReport({patientId: id as string, body: data}).unwrap().then((res)=>{}).catch((err)=>{console.log(err)})
     };
 
  
@@ -199,6 +209,12 @@ const Page = () => {
                 </Paper>
             </Grid>
             <Grid item xs={12} md={6}>
+                
+            {/* <button onClick={(e) => handleReportSubmit(e)}>
+                    Get Report
+            </button> */}
+            {/* <MyDocument/> */}
+            <PDFPage2/>
                 <Paper elevation={3} sx={{ padding: 4 }}>
                     <Typography variant="h5" align="center" gutterBottom>
                         Patient History
@@ -218,9 +234,6 @@ const Page = () => {
                         }}
                         sx={{ marginBottom: 2 }}
                     />
-                    {/* <PDFDownloadLink document={<MyDocument />} fileName="document.pdf">
-      {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
-    </PDFDownloadLink> */}
                     <TableContainer >
                         <Table>
                             <TableHead>
