@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Diagnosis Lab Report</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif; /* Changing font family */
+            background-color: #f2f2f2;
+            padding: 20px;
+            box-sizing: border-box;;
+            height: 297mm;
+            width: 210mm; 
+        }
+        .container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 0 auto;
+            max-width: 800px;
+            height: 100%; /* Full height of A4 page */
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+        }
+        .company-name {
+            font-size: clamp(1.2rem, 5vw, 2rem);
+            font-weight: bold;
+            color: #003049;
+        }
+        .address {
+            margin-top: 10px;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            color: #777;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            color: white;
+            text-align: center;
+            background: #003049;
+            padding: 3px;
+        }
+        .section {
+            margin-bottom: 20px;
+            border: 2px solid #003049;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .section-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: bold;
+            color: #003049;
+            margin-bottom: 10px;
+        }
+        .section-content {
+            border-top: 2px solid #003049;
+            padding-top: 10px;
+        }
+        .section-content p {
+            margin: 0;
+        }
+        .diagnosis {
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .doctor-info {
+            font-size: clamp(0.9rem, 3vw, 1rem);
+            border: 2px solid #003049;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+        .doctor-info-title {
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-weight: bold;
+            color: #003049;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="your-logo.png" alt="Laboratory Logo" class="logo">
+            <div class="company-name">Safia Medicare</div>
+            <div class="address">
+                123 Rainbow Street, Cityville, Countryland<br>
+                Phone: +123 456 7890<br>
+                Email: info@rainbowdiagnostics.com
+            </div>
+        </div>
+        <h1 style="color: #003049; text-align: center;">Patient Diagnosis Lab Report</h1>
+        <div class="section">
+            <div class="section-title">Patient Information</div>
+            <div class="section-content">
+                <p>Name: Rainbow Dash</p>
+                <p>Age: 30</p>
+                <p>Gender: Female</p>
+                <p>Weight: 65 kg</p>
+                <p>Height: 165 cm</p>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Diagnosis</div>
+            <div class="section-content">
+                <p>The patient has been diagnosed with <span class="diagnosis">Luminous Syndrome</span>.</p>
+                <p>Additional notes: The patient is advised to maintain a balanced diet and exercise regularly.</p>
+            </div>
+        </div>
+        <div class="doctor-info">
+            <div class="doctor-info-title">Doctor Information</div>
+            <div class="section-content">
+                <p>Name: Dr. Rainbow Bright</p>
+                <p>Specialty: Internal Medicine</p>
+                <p>Contact: +1 (123) 456-7890</p>
+                <p>Email: doctor@rainbowdiagnostics.com</p>
+            </div>
+        </div>
+        <div class="footer">
+            <p>© 2024 Rainbow Diagnostic Center. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

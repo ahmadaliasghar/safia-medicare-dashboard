@@ -41,7 +41,7 @@ const PatientTable: React.FC<PatientTableProps> = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCriteria, setFilterCriteria] = useState<string | null>('name'); // Set default criteria to 'name'
 
-  const filteredData = data.filter((patient) => {
+  const filteredData = data?.filter((patient) => {
     const fullName = `${patient.firstName} ${patient.lastName}`.toLowerCase();
 
     if (

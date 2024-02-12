@@ -8,6 +8,8 @@ import { LuBed } from "react-icons/lu";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaUsersLine } from "react-icons/fa6";
 import { LuCircleDollarSign } from "react-icons/lu";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import MyDocument from "./diagnose/compnents/Document";
 
 
 
@@ -44,6 +46,7 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-4">New Appointments</h2>
           <NewAppointmentView/>
         </div>
+
       </div>
     </div>
   );

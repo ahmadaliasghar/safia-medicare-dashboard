@@ -49,3 +49,7 @@ export interface Appointment {
     diagnosis: string;
     disease: string;
   }
+
+  export interface Report {
+    status: string; diagnosis: string; disease: string; time: string; 
+  }

@@ -45,6 +45,14 @@ export const patientSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Patient"],
     }),
+    getPatientReport: builder.mutation({
+      query: ({ patientId, body }: { patientId: string; body: Diagnose }) => ({
+        url: `/report`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Patient"],
+    }),
     deletePatient: builder.mutation({
       query: (id:string) => ({
         url: `/patient/${id}`,
@@ -55,4 +63,4 @@ export const patientSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetPatientsQuery, useGetPatientQuery, useAddPatientMutation, useUpdatePatientMutation, useDeletePatientMutation, useGetPatientDiagnosisQuery, useAddPatientDiagnosisMutation} = patientSlice;
+export const { useGetPatientsQuery, useGetPatientQuery, useAddPatientMutation, useUpdatePatientMutation, useDeletePatientMutation, useGetPatientDiagnosisQuery, useAddPatientDiagnosisMutation, useGetPatientReportMutation} = patientSlice;
