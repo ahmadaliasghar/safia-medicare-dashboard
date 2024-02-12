@@ -1,14 +1,16 @@
 'use client'
-import React ,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { useGetAppointmentsQuery } from '@/features/appointmentSlice';
+import Modal from './Model';
 
 export default function Page() {
   const { data: appointmentsData } = useGetAppointmentsQuery();
   const [appointments, setAppointments] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  console.log(appointmentsData, 'data')
   useEffect(() => {
     if (appointmentsData && Array.isArray(appointmentsData.appointments)) {
       const formattedAppointments = appointmentsData?.appointments
@@ -22,6 +24,12 @@ export default function Page() {
     }
   }, [appointmentsData]);
 
+  const handleDateSelect = (info) => {
+    console.log(info, 'data')
+    console.log("Selected date:", info.startStr);
+    setSelectedDate(info.startStr); 
+    setIsModalOpen(true); 
+  };
 
   return (
     <div className='m-4'>
@@ -30,8 +38,15 @@ export default function Page() {
         initialView='dayGridMonth'
         weekends={true}
         events={appointments}
+        selectable={true}
+        select={handleDateSelect}
         eventContent={renderEventContent}
         eventClassNames={handleEventClassNames}
+      />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedDate={selectedDate}
       />
     </div>
   );
