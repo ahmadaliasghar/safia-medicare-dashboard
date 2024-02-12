@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useAddPatientDiagnosisMutation, useGetPatientDiagnosisQuery, useGetPatientQuery, useGetPatientReportMutation } from '@/features/patientSlice';
-import { Patient } from '@/types';
+import { Patient, Report } from '@/types';
 import { useParams } from 'next/navigation';
 import { Grid, Typography, TextField, Button, Paper, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, InputAdornment, IconButton, Collapse, Box, Checkbox } from '@mui/material';
 import { IoIosSearch } from "react-icons/io";
@@ -69,23 +69,23 @@ const Page = () => {
         ));
     };
 
+    const [report, setReport] = useState<Report[]>([]);
+
+    // Modify handleCheckboxChange function to update the report state
     const handleCheckboxChange = (index: number) => {
         const selectedIndex = selectedRows.indexOf(index);
         let newSelected: number[] = [];
-
+    
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selectedRows, index);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selectedRows.slice(1));
-        } else if (selectedIndex === selectedRows.length - 1) {
-            newSelected = newSelected.concat(selectedRows.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selectedRows.slice(0, selectedIndex),
-                selectedRows.slice(selectedIndex + 1)
-            );
+            // Add the row data to the report state
+            setReport(prevReport => [...prevReport, diagnose?.diagnosis[index]]);
+        } else {
+            newSelected = newSelected.concat(selectedRows.slice(0, selectedIndex), selectedRows.slice(selectedIndex + 1));
+            // Remove the row data from the report state
+            setReport(prevReport => prevReport.filter((_, i) => i !== index));
         }
-
+    
         setSelectedRows(newSelected);
     };
 
@@ -209,12 +209,7 @@ const Page = () => {
                 </Paper>
             </Grid>
             <Grid item xs={12} md={6}>
-                
-            {/* <button onClick={(e) => handleReportSubmit(e)}>
-                    Get Report
-            </button> */}
-            {/* <MyDocument/> */}
-            <PDFPage2/>
+            <PDFPage2 data = {formData} report={report} />
                 <Paper elevation={3} sx={{ padding: 4 }}>
                     <Typography variant="h5" align="center" gutterBottom>
                         Patient History
