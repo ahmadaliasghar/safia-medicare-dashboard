@@ -12,7 +12,7 @@ interface DoctorTableProp {
 const columns: GridColDef[] = [
   {
     field: 'name',
-    headerName: 'Doctor',
+    headerName: <b>Doctor</b>,
     width: 220,
     renderCell: (params) => (
       <Box display="flex" alignItems="center">
@@ -25,14 +25,14 @@ const columns: GridColDef[] = [
     sortable: false,
     filterable: false,
   },
-  { field: 'speciality', headerName: 'Specialist ', width: 110 },
-  { field: 'degree', headerName: 'Degree', width: 110 },
-  { field: 'username', headerName: 'User Name ', width: 110 },
-  { field: 'email', headerName: 'Email', width: 150 },
-  { field: 'contact', headerName: 'Phone Number', width: 110 },
+  { field: 'speciality', headerName: <b>Specialist</b>, width: 110 },
+  { field: 'degree', headerName: <b>Degree</b>, width: 110 },
+  { field: 'username', headerName: <b>User Name</b>, width: 110 },
+  { field: 'email', headerName: <b>Email</b>, width: 150 },
+  { field: 'contact', headerName: <b>Phone Number</b>, width: 110 },
   {
     field: 'status',
-    headerName: 'Status',
+    headerName: <b>Status</b>,
     type: 'string',
     width: 120,
     renderCell: (params) => (
