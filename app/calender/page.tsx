@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react';
+import React ,{ useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { useGetAppointmentsQuery } from '@/features/appointmentSlice';
