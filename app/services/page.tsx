@@ -19,7 +19,7 @@ import Link from 'next/link';
 const Page = () => {
   const [openRow, setOpenRow] = useState(null);
 
-  const handleToggleRow = (index:any) => {
+  const handleToggleRow = (index: any) => {
     setOpenRow(openRow === index ? null : index);
   };
 
@@ -46,19 +46,19 @@ const Page = () => {
 
   return (
     <div className='min-h-[100vh] mt-20 p-4'>
-        <div className='flex justify-between items-center mb-3'>
-            <h1 className='text-3xl font-bold'>Services</h1>
-            <Link href={"services/add"}>
-            <ActionButton type="success">Add Service</ActionButton> 
-            </Link>
-        </div>
+      <div className='flex justify-between items-center mb-3'>
+        <h1 className='text-3xl font-bold'>Services</h1>
+        <Link href={"services/add"}>
+          <ActionButton type="success">Add Service</ActionButton>
+        </Link>
+      </div>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className='font-bold w-[33%]'>Name</TableCell>
-              <TableCell className='font-bold w-[33%]'>Price</TableCell>
-              <TableCell className='font-bold w-[33%]'>Duration of Service</TableCell>
+              <TableCell className='font-bold w-[33%]'><b>Name</b></TableCell>
+              <TableCell className='font-bold w-[33%]'><b>Price</b></TableCell>
+              <TableCell className='font-bold w-[33%]'><b>Duration of Service</b></TableCell>
               <TableCell className='font-bold w-[33%]'></TableCell>
             </TableRow>
           </TableHead>
@@ -71,13 +71,13 @@ const Page = () => {
                   <TableCell className='font-bold '>
                     {row.duration}
                   </TableCell>
-                <TableCell>
+                  <TableCell>
                     <IconButton onClick={() => handleToggleRow(index)}>
-                    <span onClick={() => handleToggleRow(index)} style={{ cursor: 'pointer' }}>
-                      {openRow === index ? <FaCaretUp color="black" size={14} /> : <FaCaretDown color="black" size={14} />}
-                    </span>
+                      <span onClick={() => handleToggleRow(index)} style={{ cursor: 'pointer' }}>
+                        {openRow === index ? <FaCaretUp color="black" size={14} /> : <FaCaretDown color="black" size={14} />}
+                      </span>
                     </IconButton>
-                </TableCell>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell colSpan={4} className='p-0 m-0'>
