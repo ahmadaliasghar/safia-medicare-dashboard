@@ -31,6 +31,15 @@ export default function Page() {
     setIsModalOpen(true); 
   };
 
+  const handleEventMouseEnter = (arg) => {
+    arg.el.style.backgroundColor = 'grey';
+    arg.el.style.cursor = 'pointer';
+  };
+
+  const handleEventMouseLeave = (arg) => {
+    arg.el.style.backgroundColor = ''; // Revert to default background color
+  };
+
   return (
     <div className='m-4'>
       <FullCalendar
@@ -43,6 +52,8 @@ export default function Page() {
         eventClick={handleDateSelect}
         eventContent={renderEventContent}
         eventClassNames={handleEventClassNames}
+        eventMouseEnter={handleEventMouseEnter}
+        eventMouseLeave={handleEventMouseLeave}
       />
       <Modal
         isOpen={isModalOpen}
@@ -52,7 +63,7 @@ export default function Page() {
   );
 }
 
-function renderEventContent(eventInfo: any) {
+function renderEventContent(eventInfo) {
   return (
     <div>
       <b className="mr-2">{eventInfo.timeText}</b>
