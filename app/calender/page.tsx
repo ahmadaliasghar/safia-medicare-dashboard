@@ -40,19 +40,19 @@ export default function Page() {
         events={appointments}
         selectable={true}
         select={handleDateSelect}
+        eventClick={handleDateSelect}
         eventContent={renderEventContent}
         eventClassNames={handleEventClassNames}
       />
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        selectedDate={selectedDate}
       />
     </div>
   );
 }
 
-function renderEventContent(eventInfo) {
+function renderEventContent(eventInfo: any) {
   return (
     <div>
       <b className="mr-2">{eventInfo.timeText}</b>
