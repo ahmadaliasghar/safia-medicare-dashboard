@@ -16,12 +16,9 @@
     "@fullcalendar/daygrid": "^6.1.10",
     "@fullcalendar/list": "^6.1.10",
     "@fullcalendar/react": "^6.1.10",
-<<<<<<< HEAD
+    "@fullcalendar/timegrid": "^6.1.10",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
-=======
-    "@fullcalendar/timegrid": "^6.1.10",
->>>>>>> f2cb2c72ca6518a33b76b85b2591e545f3a93d03
     "@mui/material": "^5.15.3",
     "@mui/x-data-grid": "^6.19.2",
     "@mui/x-date-pickers": "^6.19.3",
@@ -37,6 +34,7 @@
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
     "next": "14.0.4",
+    "next-auth": "^5.0.0-beta.15",
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",

@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast'
 const inter = Inter({ subsets: ['latin'] })
 import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes';
+import AuthProvider from '@/context/AuthProvider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <AuthProvider>
         <ReduxProvider>
           <Theme>
         <Sidebar/>
@@ -30,6 +32,7 @@ export default function RootLayout({
         </div>
         </Theme>
         </ReduxProvider>
+        </AuthProvider>
       </body>
     </html>
   )

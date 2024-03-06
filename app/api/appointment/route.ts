@@ -29,6 +29,7 @@ export const GET = async (request: NextRequest) => {
                       patient: {
                           _id: patient._id,
                           name: `${patient.firstName} ${patient.lastName}`,
+                          email: patient.email
                       },
                   };
               } else {
