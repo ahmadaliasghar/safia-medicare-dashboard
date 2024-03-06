@@ -72,7 +72,13 @@ const Page = () => {
                     {row.duration}
                   </TableCell>
                   <TableCell>
-                    <IconButton onClick={() => handleToggleRow(index)}>
+                    <IconButton onClick={() => handleToggleRow(index)}
+                      style={{
+                        cursor: 'pointer',
+                        transition: 'transform 0.3s ease',
+                        transform: openRow === index ? 'rotate(180deg)' : 'rotate(0deg)'
+                      }}
+                    >
                       <span onClick={() => handleToggleRow(index)} style={{ cursor: 'pointer' }}>
                         {openRow === index ? <FaCaretUp color="black" size={14} /> : <FaCaretDown color="black" size={14} />}
                       </span>
