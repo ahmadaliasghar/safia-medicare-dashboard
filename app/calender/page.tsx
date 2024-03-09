@@ -10,15 +10,17 @@ export default function Page() {
   const [appointments, setAppointments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     if (appointmentsData && Array.isArray(appointmentsData.appointments)) {
+      console.log(appointmentsData,"data on calander")
       const formattedAppointments = appointmentsData?.appointments
         ?.filter(appointment => appointment.status !== 'rejected')
         .map(appointment => ({
           title: appointment.title,
           start: `${appointment.date}T${appointment.time}`,
-          status: appointment.status
+          status: appointment?.status
         }));
       setAppointments(formattedAppointments);
     }
@@ -26,9 +28,9 @@ export default function Page() {
 
   const handleDateSelect = (info) => {
     console.log(info, 'data')
-    console.log("Selected date:", info.startStr);
-    setSelectedDate(info.startStr); 
-    setIsModalOpen(true); 
+    // setSelectedDate(info.startStr);
+    setSelectedEvent(info.event);
+    setIsModalOpen(true);
   };
 
   const handleEventMouseEnter = (arg) => {
@@ -58,16 +60,18 @@ export default function Page() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        eventData={selectedEvent}
       />
     </div>
   );
 }
 
 function renderEventContent(eventInfo) {
+  console.log(eventInfo,"time")
   return (
     <div>
-      <b className="mr-2">{eventInfo.timeText}</b>
-      <i>{eventInfo.event.title}</i>
+      <b className="mr-2">{eventInfo?.timeText}</b>
+      <i>{eventInfo.event?.title}</i>
     </div>
   );
 }
