@@ -91,7 +91,7 @@ const DataTable: React.FC<DoctorTableProp> = ({ data }) => {
   });
 
   return (
-    <div style={{ height: 400, width: '97%', marginLeft: '10px' }}>
+    <div style={{ height: 400 }}>
       <DataGrid
         rows={rows}
         columns={columns}

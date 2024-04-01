@@ -15,11 +15,11 @@ const Page = () => {
   } = useGetDoctorsQuery();
 
   return (
-    <div className="mt-16 min-h-[100vh] bg-white m-4">
+    <div className="m-4 mt-14 min-h-[100vh] bg-white text-light-primary p-4 rounded">
       {/* <h1 className='text-light-primary text-2xl font-bold'>
           Doctor
         </h1>  */}
-      <div className="py-6 px-4 md:px-6 xl:px-7.5 flex justify-between items-center">
+      <div className="py-6 px-4 flex justify-between items-center">
         <h4 className="text-xl font-semibold text-black">
           Doctors
         </h4>
