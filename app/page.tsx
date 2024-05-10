@@ -56,7 +56,7 @@ export default function Home() {
           </div>
         </div>
         <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Today's Appointments</h2>
+          <h2 className="text-2xl font-semibold mb-4">Today&apos;s Appointments</h2>
           <TodayAppointmentView />
         </div>
         <div className="mt-8">

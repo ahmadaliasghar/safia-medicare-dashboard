@@ -1,44 +1,46 @@
-'use client'
+'use client'// pages/index.tsx
+
+import React, { useState } from 'react';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { HiSearch } from 'react-icons/hi';
+import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
+import Swal from 'sweetalert2';
 import Loader from '@/components/Loader';
 import { useGetAppointmentsQuery, useDeleteAppointmentMutation } from '@/features/appointmentSlice';
 import { Appointment, Person } from '@/types';
-import { DataGrid, GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
-import { useState } from 'react';
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { HiSearch } from 'react-icons/hi';
-import Swal from 'sweetalert2';
 
-
-const Page = () => {
-
+const Page: React.FC = () => {
   const [deleteAppointment] = useDeleteAppointmentMutation();
+  const { data: allAppointments, isLoading } = useGetAppointmentsQuery();
+  const [filteredRows, setFilteredRows] = useState<Appointment[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const columns: GridColDef[] = [
     {
       field: 'title',
-      headerName: <b>Appointment Title</b>,
+      headerName: 'Appointment Title',
       width: 220,
       sortable: false,
       filterable: false,
     },
     {
       field: 'patient',
-      headerName: <b>Patient</b>,
+      headerName: 'Patient',
       width: 220,
       sortable: false,
       filterable: false,
     },
     {
       field: 'date',
-      headerName: <b>Date</b>,
+      headerName: 'Date',
       type: 'string',
       width: 120,
     },
-    { field: 'start', headerName: <b>Start Time</b>, width: 180 },
-    { field: 'end', headerName: <b>End Time</b>, width: 180 },
+    { field: 'start', headerName: 'Start Time', width: 180 },
+    { field: 'end', headerName: 'End Time', width: 180 },
     {
       field: 'status',
-      headerName: <b>Status</b>,
+      headerName: 'Status',
       type: 'string',
       width: 120,
       renderCell: ({ value }) => {
@@ -61,113 +63,92 @@ const Page = () => {
     },
     {
       field: 'doctor',
-      headerName: <b>Doctor</b>,
+      headerName: 'Doctor',
       sortable: false,
       width: 180,
     },
     {
       field: 'actions',
-      headerName: <b>Actions</b>,
+      headerName: 'Actions',
       width: 120,
       sortable: false,
       filterable: false,
-      renderCell: ({ id }) => {
-        // console.log("🚀 ~ id:", id)
-        const handleEditClick = () => {
-          console.log("Edit")
-        }
-        const handleDeleteClick = async (id) => {
-          Swal.fire({
-            title: 'Are you sure?',
-            text: 'You want to delete this appointment!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
-            reverseButtons: true,
-          }).then(async (result) => {
-            if (result.isConfirmed) {
-              try {
-                await deleteAppointment(id).unwrap();
-                Swal.fire(
-                  'Deleted!',
-                  'Your appointment has been deleted.',
-                  'success'
-                );
-              } catch (error) {
-                Swal.fire(
-                  'Error!',
-                  'Failed to delete appointment. Please try again later.',
-                  'error'
-                );
-                console.error("Failed to delete appointment:", error);
-              }
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-            }
-          });
-        };
-
-        return [
+      renderCell: ({ id }) => (
+        <>
           <GridActionsCellItem
             icon={<AiOutlineEdit />}
             label="Edit"
             className="textPrimary"
             onClick={() => handleEditClick(id)}
             color="inherit"
-          />,
+          />
           <GridActionsCellItem
             icon={<AiOutlineDelete />}
             label="Delete"
             onClick={() => handleDeleteClick(id)}
             color="inherit"
-          />,
-        ];
-      },
+          />
+        </>
+      ),
     },
-
   ];
-  const {
-    data: allAppointments,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetAppointmentsQuery();
-  const [filteredRows, setFilteredRows] = useState<Appointment[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  let rows: Appointment[] = [];
+  const handleEditClick = (id: string) => {
+    console.log('Edit', id);
+  };
 
-  allAppointments?.appointments?.forEach((appointment: Appointment) => {
-    rows.push({
-      id: appointment?._id as string,
-      title: appointment?.title,
-      patient: (appointment?.patient as Person)?.name,
-      start: appointment?.startTime,
-      end: appointment?.endTime,
-      date: appointment?.date,
-      status: appointment?.status,
-      doctor: (appointment?.doctor as Person)?.name
+  const handleDeleteClick = async (id: string) => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'You want to delete this appointment!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      reverseButtons: true,
     });
-  });
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    if (term === "") {
-      setFilteredRows([]);
-    } else {
-      const filtered = rows?.filter(appointment =>
-        appointment.title.toLowerCase().includes(term.toLowerCase()) ||
-        (appointment.patient as Person)?.name?.toLowerCase().includes(term.toLowerCase()) ||
-        appointment.date.toLowerCase().includes(term.toLowerCase()) ||
-        (appointment.doctor as Person)?.name?.toLowerCase().includes(term.toLowerCase())
-      );
-      setFilteredRows(filtered || []);
+    if (result.isConfirmed) {
+      try {
+        await deleteAppointment(id).unwrap();
+        Swal.fire('Deleted!', 'Your appointment has been deleted.', 'success');
+      } catch (error) {
+        Swal.fire('Error!', 'Failed to delete appointment. Please try again later.', 'error');
+        console.error('Failed to delete appointment:', error);
+      }
     }
   };
 
-  const dataRows: Appointment[] = searchTerm ? filteredRows : (rows || []);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const term = event.target.value.toLowerCase();
+    setSearchTerm(term);
+
+    if (term === '') {
+      setFilteredRows([]);
+    } else {
+      const filtered = rows.filter(
+        (appointment) =>
+          appointment.title.toLowerCase().includes(term) ||
+          (appointment.patient as Person)?.name.toLowerCase().includes(term) ||
+          appointment.date.toLowerCase().includes(term) ||
+          (appointment.doctor as Person)?.name.toLowerCase().includes(term)
+      );
+      setFilteredRows(filtered);
+    }
+  };
+
+  const rows: Appointment[] = allAppointments?.appointments?.map((appointment) => ({
+    id: appointment._id as string,
+    title: appointment.title,
+    patient: (appointment.patient as Person)?.name,
+    start: appointment.startTime,
+    end: appointment.endTime,
+    date: appointment.date,
+    status: appointment.status,
+    doctor: (appointment.doctor as Person)?.name,
+  })) || [];
+
+  const dataRows = searchTerm ? filteredRows : rows;
 
   return (
     <div style={{ height: 600, width: '97%', marginLeft: '10px' }}>
@@ -183,7 +164,7 @@ const Page = () => {
             <HiSearch className="text-gray-400" size={24} />
           </div>
         </div>
-        {isLoading && (<Loader style="items-center h-[70vh]" />)}
+        {isLoading && <Loader style="items-center h-[70vh]" />}
       </div>
       {!isLoading && (
         <DataGrid
