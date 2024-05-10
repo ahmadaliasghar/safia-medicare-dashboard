@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "path/to/your/source",
+        "src": "/",
         "use": "@vercel/node",
         "config": {
           "vercel": {
